@@ -15,7 +15,7 @@ const Login = () => {
   return (
     <SafeAreaView style={style.Container}>
       <Header goBack={false}></Header>
-      <ScrollView style={style.content}>
+      <ScrollView style={style.content} showsVerticalScrollIndicator={false}>
         <View style={style.textLayer}>
           <Text style={style.text}>Welcome !!</Text>
           <Text style={style.text}>Hello, BlockChain Wallet</Text>
