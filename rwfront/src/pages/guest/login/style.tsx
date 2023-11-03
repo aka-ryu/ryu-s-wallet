@@ -7,10 +7,8 @@ export default StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: 'red',
   },
   textLayer: {
-    backgroundColor: 'blue',
     alignItems: 'center',
     paddingTop: 50,
   },
@@ -19,13 +17,24 @@ export default StyleSheet.create({
   },
   inputLayer: {
     flex: 1,
-    height: 100,
-    backgroundColor: 'yellow',
     paddingTop: 40,
   },
   buttonLayer: {
     flex: 1,
-    backgroundColor: 'green',
-    paddingTop: 40,
+    paddingTop: 150,
+  },
+  textButtonLayer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  textButtonStyle: {
+    fontSize: 15,
+    textDecorationLine: 'underline',
+  },
+
+  textButtonSizs: {
+    width: 100,
+    height: 40,
   },
 });
