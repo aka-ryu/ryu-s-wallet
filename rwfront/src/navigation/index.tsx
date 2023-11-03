@@ -1,16 +1,24 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../pages/guest/login/login';
-import {SafeAreaView} from 'react-native';
+import SignIn from '../pages/guest/SignIn';
+import SignUp from '../pages/guest/SignUp';
+import ForgotPassword from '../pages/guest/ForgotPassword';
+import {RootStackParamList} from '../interface/navigation';
+import Routes from './Routes';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName={Routes.SIGN_IN}
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name={Routes.SIGN_IN} component={SignIn} />
+        <Stack.Screen name={Routes.SIGN_UP} component={SignUp} />
+        <Stack.Screen
+          name={Routes.FORGOT_PASSWORD}
+          component={ForgotPassword}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
