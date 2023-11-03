@@ -30,6 +30,11 @@ const SignIn = () => {
         </View>
         <View style={style.buttonLayer}>
           <RyusButton text="로그인"></RyusButton>
+          <RyusButton
+            text="카카오톡으로 시작하기"
+            marginTop={5}
+            buttonColor={'#FEE500'}
+            textColor={'#191919'}></RyusButton>
           <View style={style.textButtonLayer}>
             <TouchableOpacity
               style={style.textButtonSizs}

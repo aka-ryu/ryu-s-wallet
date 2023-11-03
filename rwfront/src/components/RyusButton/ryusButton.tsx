@@ -12,21 +12,37 @@ import style from './style';
 interface RyusButtonProps {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   text: string;
-  buttonStyle?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+  buttonColor?: string;
+  textColor?: string;
   disabled?: boolean;
   width?: number;
   height?: number;
   loading?: boolean;
+  marginTop?: number;
 }
 
 const RyusButton = (props: RyusButtonProps) => {
-  const {onPress, text, buttonStyle, textStyle, disabled, width, height} =
-    props;
+  const {
+    onPress,
+    text,
+    buttonColor,
+    textColor,
+    disabled,
+    width,
+    height,
+    marginTop,
+  } = props;
 
   const dynamicButtonStyle = [
-    buttonStyle ? buttonStyle : style.buttonStyle,
+    style.buttonStyle,
     disabled ? {opacity: 0.5} : null,
+    marginTop ? {marginTop: marginTop} : null,
+    buttonColor ? {backgroundColor: buttonColor} : null,
+  ];
+
+  const dynamicTextStyle = [
+    style.textStyle,
+    textColor ? {color: textColor} : null,
   ];
 
   return (
@@ -34,7 +50,7 @@ const RyusButton = (props: RyusButtonProps) => {
       style={dynamicButtonStyle}
       onPress={onPress}
       disabled={disabled}>
-      <Text style={textStyle ? textStyle : style.textStyle}>{text}</Text>
+      <Text style={dynamicTextStyle}>{text}</Text>
     </TouchableOpacity>
   );
 };

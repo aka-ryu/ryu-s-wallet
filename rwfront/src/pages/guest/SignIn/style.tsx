@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   buttonLayer: {
     flex: 1,
-    paddingTop: 150,
+    paddingTop: 100,
   },
   textButtonLayer: {
     flexDirection: 'row',
@@ -36,5 +36,9 @@ export default StyleSheet.create({
   textButtonSizs: {
     width: 100,
     height: 40,
+  },
+
+  kakaoButtonStyle: {
+    backgroundColor: 'yellow',
   },
 });
