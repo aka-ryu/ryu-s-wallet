@@ -13,19 +13,17 @@ const Header = ({goBack, title, rightNode}: IHeader) => {
   const navigation = useNavigation();
   return (
     <View style={style.headerWrap}>
-      {goBack ? (
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text>Back</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={style.ic_left_arrow} />
-      )}
-      {title === undefined ? (
-        <Text style={style.headerTitle}>Ryu's Wallet</Text>
-      ) : (
-        <Text>{title}</Text>
-      )}
-      {rightNode ? rightNode : <View style={style.ic_left_arrow} />}
+      <View style={style.rightLayer}>
+        {goBack && (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text>뒤로가기</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={style.middleLayer}>
+        <Text style={style.headerTitle}>{!title ? `Ryu's Wallet` : title}</Text>
+      </View>
+      <View style={style.rightLayer}></View>
     </View>
   );
 };
