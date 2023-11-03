@@ -15,7 +15,6 @@ const Login = () => {
         <View style={style.inputLayer}>
           <RyusInput placeholder={'Email'}></RyusInput>
           <RyusInput placeholder={'Password'}></RyusInput>
-          <Text>gd</Text>
         </View>
 
         <View style={style.buttonLayer}></View>
