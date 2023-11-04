@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('EmailCheck')
-export class EmailCheckEntity {
+export class EmailVerify {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,8 +17,13 @@ export class EmailCheckEntity {
   @Column()
   code: string;
 
-  @Column({ type: 'int' })
-  is_success: boolean;
+  @Column({
+    type: 'smallint',
+    nullable: true,
+    default: null,
+    comment: 'null (대기중), 0 (실패), 1 (성공)',
+  })
+  is_success: number | null;
 
   @CreateDateColumn({
     type: 'timestamp',
