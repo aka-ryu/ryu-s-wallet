@@ -1,4 +1,4 @@
-import {ScrollView, Text, TextInput, View} from 'react-native';
+import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../../components/Header/header';
 import style from './style';
@@ -6,6 +6,7 @@ import RyusInput from '../../../components/RyusInput/ryusInput';
 import RyusButton from '../../../components/RyusButton/ryusButton';
 import {useEffect, useState} from 'react';
 import React from 'react';
+import Api from '../../../components/Api';
 
 const SignUp = () => {
   const [codeButtonDisabled, setCodeButtonDisabled] = useState(true);
@@ -15,6 +16,7 @@ const SignUp = () => {
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [codeSendLoading, setCodeSendLoading] = useState(false);
 
   const [authenticating, setAuthenticating] = useState(false);
 
@@ -28,6 +30,15 @@ const SignUp = () => {
     setEmail('');
     setAuthenticating(false);
     setCodeButtonDisabled(false);
+  };
+
+  const handleSendVerfiyCode = async () => {
+    setAuthenticating(true);
+    setCodeButtonDisabled(true);
+    setCodeSendLoading(true);
+    const response = await Api.sendEmailVerfyCode({email: email});
+    setCodeSendLoading(false);
+    console.log(response);
   };
 
   return (
@@ -46,10 +57,7 @@ const SignUp = () => {
             <RyusButton
               text="인증번호 발송"
               disabled={codeButtonDisabled}
-              onPress={() => {
-                setAuthenticating(true);
-                setCodeButtonDisabled(true);
-              }}></RyusButton>
+              onPress={handleSendVerfiyCode}></RyusButton>
           </View>
           {authenticating && (
             <View style={{marginTop: 30}}>
@@ -62,8 +70,8 @@ const SignUp = () => {
           )}
 
           <View style={{height: 30}}></View>
-          <RyusInput label={'비밀번호'}></RyusInput>
-          <RyusInput label={'비밀번호 확인'}></RyusInput>
+          {/* <RyusInput label={'비밀번호'}></RyusInput>
+          <RyusInput label={'비밀번호 확인'}></RyusInput> */}
           <RyusButton text="회원가입" disabled={buttonDisabled}></RyusButton>
         </View>
         <View></View>
