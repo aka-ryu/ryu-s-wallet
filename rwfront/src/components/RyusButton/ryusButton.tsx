@@ -22,22 +22,15 @@ interface RyusButtonProps {
 }
 
 const RyusButton = (props: RyusButtonProps) => {
-  const {
-    onPress,
-    text,
-    buttonColor,
-    textColor,
-    disabled,
-    width,
-    height,
-    marginTop,
-  } = props;
+  const {onPress, text, buttonColor, textColor, disabled, width, marginTop} =
+    props;
 
   const dynamicButtonStyle = [
     style.buttonStyle,
     disabled ? {opacity: 0.5} : null,
     marginTop ? {marginTop: marginTop} : null,
     buttonColor ? {backgroundColor: buttonColor} : null,
+    width ? {width: width} : null,
   ];
 
   const dynamicTextStyle = [

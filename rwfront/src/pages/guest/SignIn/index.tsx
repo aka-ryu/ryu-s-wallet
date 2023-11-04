@@ -13,9 +13,13 @@ import RyusButton from '../../../components/RyusButton/ryusButton';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Routes from '../../../navigation/Routes';
 import {RootStackParamList} from '../../../interface/navigation';
+import {useState} from 'react';
 
 const SignIn = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <SafeAreaView style={style.Container}>
       <Header goBack={false}></Header>
@@ -25,8 +29,11 @@ const SignIn = () => {
           <Text style={style.text}>Hello, BlockChain Wallet</Text>
         </View>
         <View style={style.inputLayer}>
-          <RyusInput placeholder={'이메일 아이디'}></RyusInput>
-          <RyusInput placeholder={'비밀번호'} password={true}></RyusInput>
+          <RyusInput placeholder={'이메일 아이디'} value={email}></RyusInput>
+          <RyusInput
+            placeholder={'비밀번호'}
+            password={true}
+            value={password}></RyusInput>
         </View>
         <View style={style.buttonLayer}>
           <RyusButton text="로그인"></RyusButton>

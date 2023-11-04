@@ -1,12 +1,8 @@
 import {Platform, StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-  inputContainer: {
-    height: 80,
-  },
-
   inputLayer: {
-    height: 60,
+    height: 50,
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 10,
@@ -15,7 +11,13 @@ export default StyleSheet.create({
     height: 20,
   },
   inputStyle: {
-    fontSize: 25,
+    fontSize: 20,
     paddingHorizontal: 10,
+  },
+  labelStyle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'black',
+    paddingLeft: 5,
   },
 });

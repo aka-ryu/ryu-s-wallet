@@ -4,7 +4,7 @@ export default StyleSheet.create({
   buttonStyle: {
     backgroundColor: 'black',
     width: '100%',
-    height: 60,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,

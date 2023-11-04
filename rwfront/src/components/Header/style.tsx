@@ -4,7 +4,6 @@ export default StyleSheet.create({
   headerWrap: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
     paddingVertical: Platform.OS === 'ios' ? 0 : 20,
     paddingBottom: 20,
   },

@@ -15,19 +15,24 @@ interface RyusInputProps extends TextInputProps {
   errText?: string;
   password?: boolean;
   inputWidth?: number;
+  label?: string;
+  value: string;
 }
 const RyusInput = (props: RyusInputProps) => {
   const {
     readonly,
+    label,
     placeholder,
     placeholderStyle,
     errText,
     password,
     inputWidth,
+    onChangeText,
+    value,
   } = props;
   return (
-    <View
-      style={[style.inputContainer, {width: inputWidth ? inputWidth : '100%'}]}>
+    <View style={[{width: inputWidth ? inputWidth : '100%'}]}>
+      {label && <Text style={style.labelStyle}>{label}</Text>}
       <View style={[style.inputLayer]}>
         <TextInput
           style={[style.inputStyle, {width: inputWidth ? inputWidth : '100%'}]}
@@ -35,6 +40,8 @@ const RyusInput = (props: RyusInputProps) => {
           editable={readonly}
           secureTextEntry={password}
           underlineColorAndroid="transparent"
+          onChangeText={onChangeText}
+          value={value}
         />
       </View>
       <View style={style.errorLayer}></View>
