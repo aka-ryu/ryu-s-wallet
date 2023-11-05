@@ -1,7 +1,8 @@
 enum Routes {
-    SIGN_UP = 'SignUp',
-    SIGN_IN = 'SignIn',
-    FORGOT_PASSWORD = 'ForgotPassword'
+  SIGN_UP = 'SignUp',
+  SIGN_IN = 'SignIn',
+  FORGOT_PASSWORD = 'ForgotPassword',
+  HOME = 'Home',
 }
 
 export const NATIVE_ROUTES = Object.values(Routes);

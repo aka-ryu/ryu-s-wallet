@@ -49,10 +49,6 @@ const SignIn = () => {
     );
   }, [email, password]);
 
-  useEffect(() => {
-    console.log(userState);
-  }, [userState]);
-
   const handleSignIn = async () => {
     console.log(userState);
     try {
@@ -63,7 +59,7 @@ const SignIn = () => {
 
       if (response.result === 'success') {
         dispatch(login({email: email, token: response.data.token}));
-        console.log(userState);
+        navigation.navigate(Routes.HOME);
         //로그인 성공로직
       } else {
         setLoginButtonLoading(false);
