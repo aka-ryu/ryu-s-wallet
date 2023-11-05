@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailVerify } from 'src/entities/email_auth.entity';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { User } from 'src/entities/user.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { ConfigService } from '@nestjs/config';
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([EmailVerify]),
+    TypeOrmModule.forFeature([EmailVerify, User]),
   ],
   controllers: [EmailController],
   providers: [EmailService],

@@ -19,11 +19,10 @@ export class EmailVerify {
 
   @Column({
     type: 'smallint',
-    nullable: true,
-    default: null,
-    comment: 'null (대기중), 0 (실패), 1 (성공)',
+    default: 0,
+    comment: ' 0 (미사용), 1 (사용완료)',
   })
-  is_success: number | null;
+  is_used: number;
 
   @CreateDateColumn({
     type: 'timestamp',

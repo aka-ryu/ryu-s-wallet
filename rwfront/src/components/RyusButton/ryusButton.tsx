@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   GestureResponderEvent,
   StyleProp,
@@ -22,8 +23,16 @@ interface RyusButtonProps {
 }
 
 const RyusButton = (props: RyusButtonProps) => {
-  const {onPress, text, buttonColor, textColor, disabled, width, marginTop} =
-    props;
+  const {
+    onPress,
+    text,
+    buttonColor,
+    textColor,
+    disabled,
+    width,
+    marginTop,
+    loading,
+  } = props;
 
   const dynamicButtonStyle = [
     style.buttonStyle,
@@ -42,8 +51,10 @@ const RyusButton = (props: RyusButtonProps) => {
     <TouchableOpacity
       style={dynamicButtonStyle}
       onPress={onPress}
-      disabled={disabled}>
-      <Text style={dynamicTextStyle}>{text}</Text>
+      disabled={loading || disabled}>
+      <Text style={dynamicTextStyle}>
+        {loading ? <ActivityIndicator size="large" color="white" /> : text}
+      </Text>
     </TouchableOpacity>
   );
 };

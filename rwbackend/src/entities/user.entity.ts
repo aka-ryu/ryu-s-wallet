@@ -17,14 +17,21 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ type: 'int' })
-  is_social: boolean;
+  @Column({
+    type: 'smallint',
+    comment: ' 0 (일반 이메일 회원), 1 (소셜회원)',
+  })
+  is_social: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, comment: '소셜 가입시 소셜에서 발급해주는 pk' })
   social_pk: string;
 
-  @Column({ type: 'int' })
-  is_deleted: boolean;
+  @Column({
+    type: 'smallint',
+    default: 0,
+    comment: ' 0 (정상), 1 (탈퇴)',
+  })
+  is_deleted: number;
 
   @CreateDateColumn({
     type: 'timestamp',

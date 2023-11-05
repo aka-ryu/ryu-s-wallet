@@ -17,6 +17,7 @@ interface RyusInputProps extends TextInputProps {
   inputWidth?: number;
   label?: string;
   value: string;
+  maxLength?: number;
 }
 const RyusInput = (props: RyusInputProps) => {
   const {
@@ -29,6 +30,7 @@ const RyusInput = (props: RyusInputProps) => {
     inputWidth,
     onChangeText,
     value,
+    maxLength,
   } = props;
   return (
     <View style={[{width: inputWidth ? inputWidth : '100%'}]}>
@@ -42,9 +44,12 @@ const RyusInput = (props: RyusInputProps) => {
           underlineColorAndroid="transparent"
           onChangeText={onChangeText}
           value={value}
+          maxLength={maxLength}
         />
       </View>
-      <View style={style.errorLayer}></View>
+      <View style={style.errorLayer}>
+        {errText && <Text style={style.errorText}>{errText}</Text>}
+      </View>
     </View>
   );
 };

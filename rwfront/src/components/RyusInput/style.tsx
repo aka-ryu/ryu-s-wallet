@@ -20,4 +20,7 @@ export default StyleSheet.create({
     color: 'black',
     paddingLeft: 5,
   },
+  errorText: {
+    color: 'red',
+  },
 });
