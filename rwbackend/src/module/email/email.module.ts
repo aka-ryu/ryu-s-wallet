@@ -3,8 +3,6 @@ import { EmailService } from './email.service';
 import { EmailController } from './email.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailVerify } from 'src/entities/email_auth.entity';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigService } from '@nestjs/config';
 import { User } from 'src/entities/user.entity';
 import { UserService } from '../user/user.service';
 

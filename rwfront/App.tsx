@@ -8,12 +8,16 @@
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigator from './src/navigation';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
 
 function App(): JSX.Element {
   return (
-    <SafeAreaProvider>
-      <Navigator />
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <Navigator />
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 

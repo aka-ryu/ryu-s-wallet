@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ResponseDTO } from 'src/dto/response.dto';
-import { SignUpDTO } from 'src/dto/signup.dto';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
 import { CodeDTO } from 'src/dto/code.dto';
 import { MailerService } from '@nestjs-modules/mailer';
-
+import { SignDTO } from 'src/dto/signup.dto';
+import * as argon2 from 'argon2';
 @Injectable()
 export class UserService {
   constructor(
@@ -15,12 +14,13 @@ export class UserService {
     @InjectRepository(User)
     private userRepo: Repository<User>,
   ) {}
-  async signUp(signUpDTO: SignUpDTO) {
-    const { email, password } = signUpDTO;
+  async signUp(signDTO: SignDTO) {
+    const { email, password } = signDTO;
     const responseDTO = new ResponseDTO();
 
     // 비밀번호 암호화
-    const hashedPassword = await bcrypt.hash(signUpDTO.password, 10);
+    console.log(password);
+    const hashedPassword = await argon2.hash(password);
 
     const user = new User();
     user.email = email;
@@ -52,18 +52,18 @@ export class UserService {
     });
 
     const tempPassword = this.createRandomPassword();
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    const hashedPassword = await argon2.hash(tempPassword);
 
     user.password = hashedPassword;
 
     try {
       await this.userRepo.save(user);
-      await this.mailsender.sendMail({
-        to: email,
-        from: 'uhuhas2002@gmail.com',
-        subject: `Ryus's Wallet 임시비밀번호`,
-        text: `임시비밀번호는  ${tempPassword} 입니다.`,
-      });
+      //   await this.mailsender.sendMail({
+      //     to: email,
+      //     from: 'uhuhas2002@gmail.com',
+      //     subject: `Ryus's Wallet 임시비밀번호`,
+      //     text: `임시비밀번호는  ${tempPassword} 입니다.`,
+      //   });
       responseDTO.message = '이메일로 임시 비밀번호를 보내드렸습니다.';
       responseDTO.result = 'success';
 

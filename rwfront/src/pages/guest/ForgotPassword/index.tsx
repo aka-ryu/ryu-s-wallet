@@ -8,6 +8,7 @@ import {useState, useEffect} from 'react';
 import Api from '../../../components/Api';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
+import {emailRegex, codeRegex} from '../../../interface/regex';
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -26,9 +27,6 @@ const ForgotPassword = () => {
   const [failCount, setFailCount] = useState(0);
 
   const [nextStep, setNextStep] = useState(true);
-
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  const codeRegex = /^\d{6}$/;
 
   useEffect(() => {
     setSendButtonDisabled(!emailRegex.test(String(email).toLowerCase()));

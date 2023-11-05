@@ -10,6 +10,7 @@ import Api from '../../../components/Api';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
+import {emailRegex, codeRegex, passwordRegex} from '../../../interface/regex';
 
 const SignUp = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -35,10 +36,6 @@ const SignUp = () => {
 
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-
-  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-  const codeRegex = /^\d{6}$/;
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
 
   useEffect(() => {
     setSendButtonDisabled(!emailRegex.test(String(email).toLowerCase()));
