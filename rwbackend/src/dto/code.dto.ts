@@ -8,4 +8,7 @@ export class CodeDTO {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  type: string;
 }

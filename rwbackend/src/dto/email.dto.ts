@@ -4,4 +4,7 @@ export class EmailDTO {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  type: string;
 }

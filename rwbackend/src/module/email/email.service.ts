@@ -8,12 +8,13 @@ import { ResponseDTO } from 'src/dto/response.dto';
 import { EmailVerify } from 'src/entities/email_auth.entity';
 import { User } from 'src/entities/user.entity';
 import { Between, Repository } from 'typeorm';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class EmailService {
   constructor(
     private mailsender: MailerService,
-
+    private userService: UserService,
     @InjectRepository(EmailVerify)
     private emailVerifyRepo: Repository<EmailVerify>,
     @InjectRepository(User)
@@ -21,21 +22,30 @@ export class EmailService {
   ) {}
 
   async sendEmailVerifyCode(emailDTO: EmailDTO) {
-    const { email } = emailDTO;
+    const { email, type } = emailDTO;
     const responseDTO = new ResponseDTO();
 
-    // 중복확인
+    // 회원가입, 비밀번호 찾기에 따른 필요 로직 수행
     const user = await this.userRepo.findOne({
       where: {
         email: email,
       },
     });
 
-    if (user) {
-      responseDTO.message = '이미 가입된 이메일 입니다.';
-      responseDTO.result = 'false';
+    if (type === 'signup') {
+      if (user) {
+        responseDTO.message = '이미 가입된 이메일 입니다.';
+        responseDTO.result = 'false';
 
-      return responseDTO;
+        return responseDTO;
+      }
+    } else if (type === 'password') {
+      if (!user) {
+        responseDTO.message = '존재하지 않는 회원 입니다.';
+        responseDTO.result = 'false';
+
+        return responseDTO;
+      }
     }
 
     // 일일 5회제한 횟수 확인
@@ -59,7 +69,7 @@ export class EmailService {
 
     try {
       // 메일 발송
-      const sendResult = await this.mailsender.sendMail({
+      await this.mailsender.sendMail({
         to: email,
         from: 'uhuhas2002@gmail.com',
         subject: `Ryus's Wallet 인증코드`,
@@ -82,14 +92,14 @@ export class EmailService {
       // 메일 발송 혹은 DB 저장 실패
       console.error(error);
       responseDTO.result = 'false';
-      responseDTO.message = '이메일 발송중 오류가 발생하였습니다.';
+      responseDTO.message = '오류가 발생하였습니다, 다시 시도해 주세요.';
 
       return responseDTO;
     }
   }
 
   async checkEmailCode(codeDTO: CodeDTO) {
-    const { code, email } = codeDTO;
+    const { code, email, type } = codeDTO;
     const responseDTO = new ResponseDTO();
 
     const emailVerify = await this.emailVerifyRepo.findOne({
@@ -121,10 +131,14 @@ export class EmailService {
     emailVerify.is_used = 1;
     await this.emailVerifyRepo.save(emailVerify);
 
-    responseDTO.message = '인증에 성공하였습니다.';
-    responseDTO.result = 'success';
+    if (type === 'signup') {
+      responseDTO.message = '인증에 성공하였습니다.';
+      responseDTO.result = 'success';
 
-    return responseDTO;
+      return responseDTO;
+    } else if (type === 'password') {
+      return this.userService.changePassword(codeDTO);
+    }
   }
 
   private createRandomCode(): string {

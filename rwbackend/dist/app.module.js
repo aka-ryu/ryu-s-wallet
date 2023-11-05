@@ -14,6 +14,7 @@ const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_module_1 = require("./module/user/user.module");
 const email_module_1 = require("./module/email/email.module");
+const mailer_1 = require("@nestjs-modules/mailer");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,6 +24,21 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
                 isGlobal: true,
+            }),
+            mailer_1.MailerModule.forRootAsync({
+                useFactory: async (configService) => ({
+                    transport: {
+                        host: 'smtp.gmail.com',
+                        auth: {
+                            user: configService.get('MAIL_SENDER_ADDRESS'),
+                            pass: configService.get('MAIL_SENDER_PASSWORD'),
+                        },
+                    },
+                    defaults: {
+                        from: '"nest-modules" <modules@nestjs.com>',
+                    },
+                }),
+                inject: [config_1.ConfigService],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 imports: [config_1.ConfigModule],

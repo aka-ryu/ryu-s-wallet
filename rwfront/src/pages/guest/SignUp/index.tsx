@@ -64,7 +64,10 @@ const SignUp = () => {
     setSendButtonDisabled(true);
     setCodeSendLoading(true);
     try {
-      const response = await Api.sendEmailVerfyCode({email: email});
+      const response = await Api.sendEmailVerfyCode({
+        email: email,
+        type: 'signup',
+      });
       if (response.result === 'success') {
         setCodeSendLoading(false);
         setAuthenticating(true);
@@ -81,8 +84,11 @@ const SignUp = () => {
     setVerifyButtonDisabled(true);
     setCodeCheckLoading(true);
     try {
-      const response = await Api.checkEmailCode({code: code, email: email});
-      console.log(response);
+      const response = await Api.checkEmailCode({
+        code: code,
+        email: email,
+        type: 'signup',
+      });
       if (response.result === 'success') {
         setCodeCheckLoading(false);
         setNextStep(false);

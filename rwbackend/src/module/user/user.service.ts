@@ -5,10 +5,13 @@ import { SignUpDTO } from 'src/dto/signup.dto';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { CodeDTO } from 'src/dto/code.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UserService {
   constructor(
+    private mailsender: MailerService,
     @InjectRepository(User)
     private userRepo: Repository<User>,
   ) {}
@@ -38,5 +41,46 @@ export class UserService {
     return responseDTO;
   }
 
-  async;
+  async changePassword(codeDTO: CodeDTO) {
+    const { email } = codeDTO;
+    const responseDTO = new ResponseDTO();
+
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    const tempPassword = this.createRandomPassword();
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+    user.password = hashedPassword;
+
+    try {
+      await this.userRepo.save(user);
+      await this.mailsender.sendMail({
+        to: email,
+        from: 'uhuhas2002@gmail.com',
+        subject: `Ryus's Wallet 임시비밀번호`,
+        text: `임시비밀번호는  ${tempPassword} 입니다.`,
+      });
+      responseDTO.message = '이메일로 임시 비밀번호를 보내드렸습니다.';
+      responseDTO.result = 'success';
+
+      return responseDTO;
+    } catch (error) {
+      console.error(error);
+
+      responseDTO.message = '오류가 발생하였습니다, 다시 시도해 주세요.';
+      responseDTO.result = 'false';
+
+      return responseDTO;
+    }
+  }
+
+  private createRandomPassword(): string {
+    const min = 10000000;
+    const max = 99999999;
+    return Math.floor(Math.random() * (max - min + 1) + min).toString();
+  }
 }
