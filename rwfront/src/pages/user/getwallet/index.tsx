@@ -1,23 +1,10 @@
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, View} from 'react-native';
 import Header from '../../../components/Header';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../../../interface/navigation';
-import {useEffect, useState} from 'react';
-import {useTypedSelector} from '../../../redux/store';
+import {useState} from 'react';
 import style from './style';
-import RyusInput from '../../../components/RyusInput';
 import RyusButton from '../../../components/RyusButton';
-import RyusModal from '../../../components/RyusModal';
+import LoadingModal from '../../../components/Modal/LoadingModal';
+import Api from '../../../components/Api';
 
 const GetWallet = () => {
   // useEffect(() => {
@@ -25,12 +12,16 @@ const GetWallet = () => {
   //     '현재 등록된 지갑이 없습니다.\n지갑을 생성 하시거나 기존 지갑을 불러오세요!',
   //   );
   // }, []);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [loadingVisible, setLoadingVisible] = useState(false);
 
   const handleGetNewWallet = async () => {
-    setModalVisible(true);
+    // setLoadingVisible(true);
+    const response = await Api.walletCreate();
+    console.log(response);
 
-    setModalVisible(false);
+    if (response.result === 'success') {
+    }
+    // setLoadingVisible(false);
   };
 
   return (
@@ -45,7 +36,7 @@ const GetWallet = () => {
           <RyusButton text={'지갑 가져오기'}></RyusButton>
         </View>
       </ScrollView>
-      <RyusModal visible={modalVisible}></RyusModal>
+      <LoadingModal visible={loadingVisible}></LoadingModal>
     </SafeAreaView>
   );
 };

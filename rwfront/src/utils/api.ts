@@ -1,7 +1,6 @@
 import Config from 'react-native-config';
 
 const baseUrl = Config.API_URL;
-console.log(baseUrl);
 
 const Header = () => {
   const header = new Headers();
@@ -17,11 +16,11 @@ const Header = () => {
 //   return headers;
 // };
 
-export const get = async (url: string, headers: Headers) => {
+export const get = async (url: string) => {
   try {
     const response = await fetch(`${baseUrl}${url}`, {
       method: 'GET',
-      headers: headers,
+      headers: Header(),
     });
 
     const data = await response.json();

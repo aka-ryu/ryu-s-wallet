@@ -14,6 +14,10 @@ export class BlockchainController {
 
   @Get('wallet/create')
   async walletCreate(@Req() req) {
+    console.log('gdgd');
+    return {
+      gd: 'gd',
+    };
     return this.blockchainService.walletCreate(req.user.email);
   }
 }

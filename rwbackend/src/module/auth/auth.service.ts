@@ -6,6 +6,7 @@ import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+// import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -24,8 +25,6 @@ export class AuthService {
         email: email,
       },
     });
-    console.log(user.password);
-    console.log(password);
 
     // 존재하지 않는 아이디
     if (!user) {

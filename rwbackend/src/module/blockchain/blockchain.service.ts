@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ResponseDTO } from 'src/dto/response.dto';
+import { UserWallet } from 'src/entities/wallet.entity';
 
 @Injectable()
 export class BlockchainService {
@@ -13,6 +14,8 @@ export class BlockchainService {
     private readonly ethersSigner: EthersSigner,
     @InjectRepository(User)
     private userRepo: Repository<User>,
+    @InjectRepository(UserWallet)
+    private walletRepo: Repository<UserWallet>,
   ) {}
   async test() {
     const wallet = this.ethersSigner.createRandomWallet();
@@ -56,5 +59,23 @@ export class BlockchainService {
       responseDTO.message = '유저가 없거나, 이미 지갑이 존재합니다.';
       return responseDTO;
     }
+
+    const walletGenerate = this.ethersSigner.createRandomWallet();
+
+    const wallet = new UserWallet();
+    wallet.address = walletGenerate.address;
+    wallet.privateKey = walletGenerate.privateKey;
+    wallet.balance = '0';
+    wallet.user = user;
+
+    await this.walletRepo.save(wallet);
+
+    user.is_wallet = 1;
+    await this.userRepo.save(user);
+
+    responseDTO.message = '지갑이 생성되었습니다.';
+    responseDTO.result = 'success';
+
+    return responseDTO;
   }
 }

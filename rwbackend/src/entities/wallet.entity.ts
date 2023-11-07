@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity('Wallet')
-export class Wallet {
+@Entity('UserWallet')
+export class UserWallet {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,6 +18,9 @@ export class Wallet {
 
   @Column({ unique: true })
   address: string;
+
+  @Column()
+  privateKey: string;
 
   @Column({ type: 'decimal', precision: 22, scale: 4 })
   balance: string;

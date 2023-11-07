@@ -3,7 +3,7 @@ import {ActivityIndicator, Alert, Modal, Text, View} from 'react-native';
 interface RyusModalProps {
   visible: boolean;
 }
-const RyusModal = (props: RyusModalProps) => {
+const LoadingModal = (props: RyusModalProps) => {
   const {visible} = props;
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
@@ -32,4 +32,4 @@ const RyusModal = (props: RyusModalProps) => {
   );
 };
 
-export default RyusModal;
+export default LoadingModal;

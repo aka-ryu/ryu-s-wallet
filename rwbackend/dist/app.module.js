@@ -17,6 +17,7 @@ const email_module_1 = require("./module/email/email.module");
 const mailer_1 = require("@nestjs-modules/mailer");
 const auth_module_1 = require("./module/auth/auth.module");
 const blockchain_module_1 = require("./module/blockchain/blockchain.module");
+const jwtaurh_module_1 = require("./module/jwt/jwtaurh.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -60,6 +61,7 @@ exports.AppModule = AppModule = __decorate([
             email_module_1.EmailModule,
             auth_module_1.AuthModule,
             blockchain_module_1.BlockchainModule,
+            jwtaurh_module_1.JwtAuthModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
