@@ -58,22 +58,32 @@ const SignIn = () => {
       const response = await Api.signIn({email: email, password: password});
 
       if (response.result === 'success') {
-        dispatch(login({email: email, token: response.data.token}));
-        navigation.navigate(Routes.HOME);
-        //로그인 성공로직
+        dispatch(
+          login({
+            email: email,
+            token: response.data.token,
+            is_wallet: response.data.is_wallet,
+          }),
+        );
+
+        // if (userState.is_wallet) {
+        //   navigation.navigate(Routes.HOME);
+        // } else {
+        //   navigation.navigate(Routes.GET_WALLET);
+        // }
       } else {
         setLoginButtonLoading(false);
         setLoginButtonDisabled(false);
+        Alert.alert(response.message);
       }
-
-      Alert.alert(response.message);
     } catch (error) {
       console.error(error);
+      Alert.alert('서버에 문제가 발생하였습니다.');
     }
   };
 
   return (
-    <SafeAreaView style={style.Container}>
+    <SafeAreaView style={style.container}>
       <Header goBack={false}></Header>
       <ScrollView style={style.content} showsVerticalScrollIndicator={false}>
         <View style={style.textLayer}>
@@ -96,16 +106,12 @@ const SignIn = () => {
             value={password}></RyusInput>
         </View>
         <View style={style.buttonLayer}>
+          <View style={{height: 60}}></View>
           <RyusButton
             text="로그인"
             disabled={loginButtonDisabled}
             loading={loginButtonLoading}
             onPress={handleSignIn}></RyusButton>
-          <RyusButton
-            text="카카오톡으로 시작하기"
-            marginTop={5}
-            buttonColor={'#FEE500'}
-            textColor={'#191919'}></RyusButton>
           <View style={style.textButtonLayer}>
             <TouchableOpacity
               style={style.textButtonSizs}

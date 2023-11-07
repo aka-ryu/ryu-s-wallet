@@ -6,18 +6,21 @@ export const userSlice = createSlice({
   initialState: {
     email: '',
     token: '',
-    isLoggedIn: false,
+    is_login: false,
+    is_wallet: false,
   },
   reducers: {
     login: (state, action) => {
       state.email = action.payload.email;
       state.token = action.payload.token;
-      state.isLoggedIn = true;
+      state.is_login = true;
+      state.is_wallet = action.payload.is_wallet;
     },
     logout: state => {
       state.email = '';
       state.token = '';
-      state.isLoggedIn = false;
+      state.is_login = false;
+      state.is_wallet = false;
     },
   },
 });

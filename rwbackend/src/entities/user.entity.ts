@@ -19,12 +19,9 @@ export class User {
 
   @Column({
     type: 'smallint',
-    comment: ' 0 (일반 이메일 회원), 1 (소셜회원)',
+    comment: ' 0 (지갑 없음), 1 (지갑 있음)',
   })
-  is_social: number;
-
-  @Column({ nullable: true, comment: '소셜 가입시 소셜에서 발급해주는 pk' })
-  social_pk: string;
+  is_wallet: number;
 
   @Column({
     type: 'smallint',

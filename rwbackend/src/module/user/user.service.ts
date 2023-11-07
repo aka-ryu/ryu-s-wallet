@@ -19,13 +19,11 @@ export class UserService {
     const responseDTO = new ResponseDTO();
 
     // 비밀번호 암호화
-    console.log(password);
     const hashedPassword = await argon2.hash(password);
 
     const user = new User();
     user.email = email;
     user.password = hashedPassword;
-    user.is_social = 0;
 
     try {
       await this.userRepo.save(user);

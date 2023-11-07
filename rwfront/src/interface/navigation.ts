@@ -5,4 +5,5 @@ export type RootStackParamList = {
   [Routes.SIGN_UP]: undefined;
   [Routes.FORGOT_PASSWORD]: undefined;
   [Routes.HOME]: undefined;
+  [Routes.GET_WALLET]: undefined;
 };

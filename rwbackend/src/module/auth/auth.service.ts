@@ -51,6 +51,7 @@ export class AuthService {
     responseDTO.message = '로그인 성공';
     responseDTO.data = {
       token: token,
+      is_wallet: user.is_wallet === 1,
     };
     responseDTO.result = 'success';
 

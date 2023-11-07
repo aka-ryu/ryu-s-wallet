@@ -7,13 +7,14 @@ import {RootStackParamList} from '../interface/navigation';
 import Routes from './Routes';
 import {useTypedSelector} from '../redux/store';
 import Home from '../pages/user/home';
+import GetWallet from '../pages/user/getwallet';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
   const userState = useTypedSelector(state => state.user);
   return (
     <NavigationContainer>
-      {!userState.isLoggedIn ? (
+      {!userState.is_login ? (
         <Stack.Navigator
           initialRouteName={Routes.SIGN_IN}
           screenOptions={{headerShown: false}}>
@@ -24,11 +25,18 @@ const Navigator = () => {
             component={ForgotPassword}
           />
         </Stack.Navigator>
-      ) : (
+      ) : userState.is_wallet ? (
         <Stack.Navigator
           initialRouteName={Routes.HOME}
           screenOptions={{headerShown: false}}>
           <Stack.Screen name={Routes.HOME} component={Home} />
+          <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
+        </Stack.Navigator>
+      ) : (
+        <Stack.Navigator
+          initialRouteName={Routes.GET_WALLET}
+          screenOptions={{headerShown: false}}>
+          <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

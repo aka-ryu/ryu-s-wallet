@@ -14,6 +14,7 @@ import {useTypedSelector} from '../../../redux/store';
 const Home = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const userState = useTypedSelector(state => state.user);
+  console.log('유저', userState);
 
   return (
     <SafeAreaView>

@@ -8,6 +8,7 @@ import { EmailModule } from './module/email/email.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './module/auth/auth.module';
+import { BlockchainModule } from './module/blockchain/blockchain.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { AuthModule } from './module/auth/auth.module';
     UserModule,
     EmailModule,
     AuthModule,
+    BlockchainModule,
   ],
   controllers: [AppController],
   providers: [AppService],
