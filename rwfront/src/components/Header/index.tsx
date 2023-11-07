@@ -1,11 +1,11 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import style from './style';
 import Routes from '../../navigation/Routes';
 import {RootStackParamList} from '../../interface/navigation';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../redux/slices/userSlice';
+import style from './style';
 
 interface IHeader {
   goBack: boolean;

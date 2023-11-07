@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import Header from '../../../components/Header/header';
+import Header from '../../../components/Header';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../../interface/navigation';
 import {useEffect} from 'react';

@@ -1,9 +1,7 @@
 import {Alert, ScrollView, Text, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../../components/Header/header';
-import style from './style';
-import RyusInput from '../../../components/RyusInput/ryusInput';
-import RyusButton from '../../../components/RyusButton/ryusButton';
+import Header from '../../../components/Header';
+import RyusInput from '../../../components/RyusInput';
 import {useEffect, useState} from 'react';
 import React from 'react';
 import Api from '../../../components/Api';
@@ -11,6 +9,8 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
 import {emailRegex, codeRegex, passwordRegex} from '../../../interface/regex';
+import style from './style';
+import RyusButton from '../../../components/RyusButton';
 
 const SignUp = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();

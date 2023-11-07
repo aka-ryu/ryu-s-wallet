@@ -1,8 +1,8 @@
 import {Alert, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import style from './style';
-import Header from '../../../components/Header/header';
-import RyusButton from '../../../components/RyusButton/ryusButton';
-import RyusInput from '../../../components/RyusInput/ryusInput';
+import Header from '../../../components/Header';
+import RyusButton from '../../../components/RyusButton/index.tsx';
+import RyusInput from '../../../components/RyusInput';
 import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {useState, useEffect} from 'react';
 import Api from '../../../components/Api';
