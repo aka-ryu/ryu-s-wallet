@@ -8,37 +8,43 @@ import Routes from './Routes';
 import {useTypedSelector} from '../redux/store';
 import Home from '../pages/user/home';
 import GetWallet from '../pages/user/getwallet';
+import {useEffect} from 'react';
+import Mnemonic from '../pages/user/mnemonic';
+import WalletImport from '../pages/user/walletImport';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
   const userState = useTypedSelector(state => state.user);
   return (
     <NavigationContainer>
-      {!userState.is_login ? (
-        <Stack.Navigator
-          initialRouteName={Routes.SIGN_IN}
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name={Routes.SIGN_IN} component={SignIn} />
-          <Stack.Screen name={Routes.SIGN_UP} component={SignUp} />
-          <Stack.Screen
-            name={Routes.FORGOT_PASSWORD}
-            component={ForgotPassword}
-          />
-        </Stack.Navigator>
-      ) : userState.is_wallet ? (
-        <Stack.Navigator
-          initialRouteName={Routes.HOME}
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name={Routes.HOME} component={Home} />
-          <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
-        </Stack.Navigator>
-      ) : (
-        <Stack.Navigator
-          initialRouteName={Routes.GET_WALLET}
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
-        </Stack.Navigator>
-      )}
+      <Stack.Navigator
+        initialRouteName={userState.is_login ? Routes.HOME : Routes.SIGN_IN}
+        screenOptions={{headerShown: false}}>
+        {/* Non-authenticated routes */}
+        {!userState.is_login && (
+          <>
+            <Stack.Screen name={Routes.SIGN_IN} component={SignIn} />
+            <Stack.Screen name={Routes.SIGN_UP} component={SignUp} />
+            <Stack.Screen
+              name={Routes.FORGOT_PASSWORD}
+              component={ForgotPassword}
+            />
+          </>
+        )}
+
+        {/* Authenticated routes */}
+        {userState.is_login && (
+          <>
+            <Stack.Screen name={Routes.HOME} component={Home} />
+            <Stack.Screen name={Routes.MNEMONIC} component={Mnemonic} />
+            <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
+            <Stack.Screen
+              name={Routes.WALLET_IMPORT}
+              component={WalletImport}
+            />
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

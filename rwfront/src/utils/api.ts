@@ -1,10 +1,16 @@
 import Config from 'react-native-config';
+import {store} from '../redux/store';
 
 const baseUrl = Config.API_URL;
 
 const Header = () => {
   const header = new Headers();
   header.append('Content-Type', 'application/json');
+
+  const userState = store.getState().user;
+  if (userState.is_login && userState.token !== '') {
+    header.append('Authorization', `Bearer ${userState.token}`);
+  }
   return header;
 };
 

@@ -1,7 +1,6 @@
 import {Alert, SafeAreaView, ScrollView, Text, View} from 'react-native';
 import style from './style';
 import Header from '../../../components/Header';
-import RyusButton from '../../../components/RyusButton/index.tsx';
 import RyusInput from '../../../components/RyusInput';
 import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {useState, useEffect} from 'react';
@@ -9,6 +8,7 @@ import Api from '../../../components/Api';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
 import {emailRegex, codeRegex} from '../../../interface/regex';
+import RyusButton from '../../../components/RyusButton';
 
 const ForgotPassword = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -73,7 +73,6 @@ const ForgotPassword = () => {
         email: email,
         type: 'password',
       });
-      console.log(response);
       if (response.result === 'success') {
         setCodeCheckLoading(false);
         setNextStep(false);

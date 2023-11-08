@@ -44,7 +44,7 @@ const Header = ({goBack, title, goHome, goLogout}: IHeader) => {
             )}
             {goLogout && (
               <TouchableOpacity onPress={handleLogout}>
-                <Text>로그아웃</Text>
+                <Text style={{textAlign: 'right'}}>로그아웃</Text>
               </TouchableOpacity>
             )}
           </>

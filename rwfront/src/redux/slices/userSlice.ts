@@ -22,9 +22,12 @@ export const userSlice = createSlice({
       state.is_login = false;
       state.is_wallet = false;
     },
+    setWallet: (state, action) => {
+      state.is_wallet = action.payload.is_wallet;
+    },
   },
 });
 
-export const {login, logout} = userSlice.actions;
+export const {login, logout, setWallet} = userSlice.actions;
 
 export default userSlice.reducer;

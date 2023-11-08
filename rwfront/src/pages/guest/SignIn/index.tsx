@@ -27,7 +27,6 @@ import RyusButton from '../../../components/RyusButton';
 const SignIn = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
-  const userState = useTypedSelector(state => state.user);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,13 +49,12 @@ const SignIn = () => {
   }, [email, password]);
 
   const handleSignIn = async () => {
-    console.log(userState);
     try {
       setLoginButtonLoading(true);
       setLoginButtonDisabled(true);
 
       const response = await Api.signIn({email: email, password: password});
-
+      console.log(response);
       if (response.result === 'success') {
         dispatch(
           login({
@@ -66,11 +64,11 @@ const SignIn = () => {
           }),
         );
 
-        // if (userState.is_wallet) {
-        //   navigation.navigate(Routes.HOME);
-        // } else {
-        //   navigation.navigate(Routes.GET_WALLET);
-        // }
+        if (response.data.is_wallet) {
+          navigation.navigate(Routes.HOME);
+        } else {
+          navigation.navigate(Routes.GET_WALLET);
+        }
       } else {
         setLoginButtonLoading(false);
         setLoginButtonDisabled(false);

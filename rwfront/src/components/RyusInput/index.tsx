@@ -18,6 +18,7 @@ interface RyusInputProps extends TextInputProps {
   label?: string;
   value: string;
   maxLength?: number;
+  inputHeight?: number;
 }
 const RyusInput = (props: RyusInputProps) => {
   const {
@@ -31,13 +32,28 @@ const RyusInput = (props: RyusInputProps) => {
     onChangeText,
     value,
     maxLength,
+    multiline,
+    inputHeight,
   } = props;
   return (
-    <View style={[{width: inputWidth ? inputWidth : '100%'}]}>
+    <View
+      style={[
+        {
+          width: inputWidth ? inputWidth : '100%',
+          height: inputHeight && inputHeight,
+        },
+      ]}>
       {label && <Text style={style.labelStyle}>{label}</Text>}
-      <View style={[style.inputLayer]}>
+      <View style={[style.inputLayer, {height: inputHeight && inputHeight}]}>
         <TextInput
-          style={[style.inputStyle, {width: inputWidth ? inputWidth : '100%'}]}
+          style={[
+            style.inputStyle,
+            {
+              width: inputWidth ? inputWidth : '100%',
+              height: inputHeight && inputHeight,
+              textAlignVertical: 'top',
+            },
+          ]}
           placeholder={placeholder}
           editable={readonly}
           secureTextEntry={password}
@@ -45,6 +61,7 @@ const RyusInput = (props: RyusInputProps) => {
           onChangeText={onChangeText}
           value={value}
           maxLength={maxLength}
+          multiline={multiline}
         />
       </View>
       <View style={style.errorLayer}>

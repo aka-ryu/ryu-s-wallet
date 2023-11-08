@@ -24,6 +24,7 @@ export class UserService {
     const user = new User();
     user.email = email;
     user.password = hashedPassword;
+    user.is_wallet = 0;
 
     try {
       await this.userRepo.save(user);
@@ -31,6 +32,7 @@ export class UserService {
       responseDTO.result = 'success';
       responseDTO.message = '회원가입에 성공하였습니다.';
     } catch (error) {
+      console.log(error);
       responseDTO.result = 'false';
       responseDTO.message =
         '알수없는 이유로 회원가입에 실패하였습니다, 다시 시도해 주세요.';

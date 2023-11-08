@@ -1,7 +1,7 @@
 import {signIn} from './auth';
 import {checkEmailCode, sendEmailVerfyCode} from './email';
 import {signUp} from './user';
-import {walletCreate} from './wallet';
+import {walletCreate, walletDisconnect, walletImport} from './wallet';
 
 export default {
   sendEmailVerfyCode,
@@ -9,4 +9,6 @@ export default {
   signUp,
   signIn,
   walletCreate,
+  walletDisconnect,
+  walletImport,
 };

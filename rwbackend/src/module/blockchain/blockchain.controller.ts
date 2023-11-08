@@ -14,10 +14,18 @@ export class BlockchainController {
 
   @Get('wallet/create')
   async walletCreate(@Req() req) {
-    console.log('gdgd');
-    return {
-      gd: 'gd',
-    };
     return this.blockchainService.walletCreate(req.user.email);
+  }
+
+  @Get('wallet/disconnect')
+  async walletDisconnect(@Req() req) {
+    return this.blockchainService.walletDisconnect(req.user.email);
+  }
+
+  @Post('wallet/import')
+  async walletImport(@Req() req) {
+    const email = req.user.email;
+    const { value } = req.body;
+    return this.blockchainService.walletImport(email, value);
   }
 }

@@ -6,4 +6,6 @@ export type RootStackParamList = {
   [Routes.FORGOT_PASSWORD]: undefined;
   [Routes.HOME]: undefined;
   [Routes.GET_WALLET]: undefined;
+  [Routes.MNEMONIC]: {mnemonic: string};
+  [Routes.WALLET_IMPORT]: undefined;
 };
