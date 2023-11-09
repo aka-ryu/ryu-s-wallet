@@ -33,7 +33,13 @@ const WalletImport = () => {
     const response = await Api.walletImport({value: inputValue});
 
     if (response.result === 'success') {
-      dispatch(setWallet({is_wallet: true}));
+      dispatch(
+        setWallet({
+          is_wallet: true,
+          address: response.data.walletAddress,
+          balance: 0,
+        }),
+      );
       Alert.alert(response.message);
 
       navigation.navigate(Routes.HOME);

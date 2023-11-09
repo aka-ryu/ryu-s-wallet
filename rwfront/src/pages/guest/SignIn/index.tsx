@@ -54,13 +54,15 @@ const SignIn = () => {
       setLoginButtonDisabled(true);
 
       const response = await Api.signIn({email: email, password: password});
-      console.log(response);
       if (response.result === 'success') {
+        console.log(response);
         dispatch(
           login({
             email: email,
             token: response.data.token,
             is_wallet: response.data.is_wallet,
+            address: response.data.walletAddress,
+            balance: response.data.balance,
           }),
         );
 

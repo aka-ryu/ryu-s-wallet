@@ -9,6 +9,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { AuthModule } from './module/auth/auth.module';
 import { BlockchainModule } from './module/blockchain/blockchain.module';
 import { JwtAuthModule } from './module/jwt/jwtaurh.module';
+import { EthersModule, SEPOLIA_NETWORK } from 'nestjs-ethers';
 
 @Module({
   imports: [
@@ -44,6 +45,9 @@ import { JwtAuthModule } from './module/jwt/jwtaurh.module';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
+    }),
+    EthersModule.forRoot({
+      network: SEPOLIA_NETWORK,
     }),
     UserModule,
     EmailModule,

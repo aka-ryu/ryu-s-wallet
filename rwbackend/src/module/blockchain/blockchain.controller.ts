@@ -7,11 +7,6 @@ import { JwtAuthGuard } from 'src/guards/jwt.authguard';
 export class BlockchainController {
   constructor(private readonly blockchainService: BlockchainService) {}
 
-  @Get('test')
-  async test() {
-    return this.blockchainService.test();
-  }
-
   @Get('wallet/create')
   async walletCreate(@Req() req) {
     return this.blockchainService.walletCreate(req.user.email);
@@ -27,5 +22,20 @@ export class BlockchainController {
     const email = req.user.email;
     const { value } = req.body;
     return this.blockchainService.walletImport(email, value);
+  }
+
+  @Get('first_reword')
+  async getFirstReword(@Req() req) {
+    return this.blockchainService.getFirstReword(req.user.email);
+  }
+
+  @Get('get/balance')
+  async getBalance(@Req() req) {
+    return this.blockchainService.refreshBalance(req.user.email);
+  }
+
+  @Get('attendance/check')
+  async attendanceCheck(@Req() req) {
+    return this.blockchainService.attendanceCheck(req.user.email);
   }
 }

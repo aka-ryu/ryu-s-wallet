@@ -24,6 +24,7 @@ export class AuthService {
       where: {
         email: email,
       },
+      relations: ['wallet'],
     });
 
     // 존재하지 않는 아이디
@@ -47,10 +48,20 @@ export class AuthService {
     const payload = { email: email };
     const token = this.jwtService.sign(payload);
 
+    let walletAddress;
+    let balance;
+
+    if (user.wallet) {
+      walletAddress = user.wallet.address;
+      balance = user.wallet.balance;
+    }
     responseDTO.message = '로그인 성공';
     responseDTO.data = {
       token: token,
       is_wallet: user.is_wallet === 1,
+      is_first_reword: user.is_first_reword === 1,
+      walletAddress: walletAddress,
+      balance: balance,
     };
     responseDTO.result = 'success';
 

@@ -6,6 +6,8 @@ enum EndPoint {
   WALLET_CREATE = '/blockchain/wallet/create',
   WALLET_DISCONNECT = '/blockchain/wallet/disconnect',
   WALLET_IMPORT = '/blockchain/wallet/import',
+  FIRST_REWORD = '/blockchain/first_reword',
+  GET_BALANCE = '/blockchain/get/balance',
 }
 
 export default EndPoint;

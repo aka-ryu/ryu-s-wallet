@@ -18,6 +18,7 @@ const mailer_1 = require("@nestjs-modules/mailer");
 const auth_module_1 = require("./module/auth/auth.module");
 const blockchain_module_1 = require("./module/blockchain/blockchain.module");
 const jwtaurh_module_1 = require("./module/jwt/jwtaurh.module");
+const nestjs_ethers_1 = require("nestjs-ethers");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -56,6 +57,9 @@ exports.AppModule = AppModule = __decorate([
                     entities: [__dirname + '/**/*.entity{.ts,.js}'],
                     synchronize: true,
                 }),
+            }),
+            nestjs_ethers_1.EthersModule.forRoot({
+                network: nestjs_ethers_1.SEPOLIA_NETWORK,
             }),
             user_module_1.UserModule,
             email_module_1.EmailModule,

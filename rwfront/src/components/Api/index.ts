@@ -1,7 +1,13 @@
 import {signIn} from './auth';
 import {checkEmailCode, sendEmailVerfyCode} from './email';
 import {signUp} from './user';
-import {walletCreate, walletDisconnect, walletImport} from './wallet';
+import {
+  getBalance,
+  getFirstReword,
+  walletCreate,
+  walletDisconnect,
+  walletImport,
+} from './wallet';
 
 export default {
   sendEmailVerfyCode,
@@ -11,4 +17,6 @@ export default {
   walletCreate,
   walletDisconnect,
   walletImport,
+  getFirstReword,
+  getBalance,
 };

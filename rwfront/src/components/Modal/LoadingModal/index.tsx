@@ -6,7 +6,7 @@ interface RyusModalProps {
 const LoadingModal = (props: RyusModalProps) => {
   const {visible} = props;
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal transparent={true} visible={visible}>
       <View
         style={{
           flex: 1,

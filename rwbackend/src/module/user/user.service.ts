@@ -25,6 +25,7 @@ export class UserService {
     user.email = email;
     user.password = hashedPassword;
     user.is_wallet = 0;
+    user.is_first_reword = 0;
 
     try {
       await this.userRepo.save(user);

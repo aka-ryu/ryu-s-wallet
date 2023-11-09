@@ -13,11 +13,6 @@ import Routes from '../../../navigation/Routes';
 
 const GetWallet = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  // useEffect(() => {
-  //   Alert.alert(
-  //     '현재 등록된 지갑이 없습니다.\n지갑을 생성 하시거나 기존 지갑을 불러오세요!',
-  //   );
-  // }, []);
   const dispatch = useDispatch();
   const [loadingVisible, setLoadingVisible] = useState(false);
 
@@ -26,7 +21,13 @@ const GetWallet = () => {
     const response = await Api.walletCreate();
 
     if (response.result === 'success') {
-      dispatch(setWallet({is_wallet: true}));
+      dispatch(
+        setWallet({
+          is_wallet: true,
+          balance: 0,
+          address: response.data.address,
+        }),
+      );
       Alert.alert(response.message);
 
       navigation.navigate(Routes.MNEMONIC, {
@@ -52,9 +53,6 @@ const GetWallet = () => {
             onPress={() =>
               navigation.navigate(Routes.WALLET_IMPORT)
             }></RyusButton>
-          <RyusButton
-            text={'홈으로'}
-            onPress={() => navigation.navigate(Routes.HOME)}></RyusButton>
         </View>
       </ScrollView>
       <LoadingModal visible={loadingVisible}></LoadingModal>

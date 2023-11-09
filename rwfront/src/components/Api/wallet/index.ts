@@ -12,3 +12,11 @@ export const walletDisconnect = async () => {
 export const walletImport = async (body: {value: string}) => {
   return await post(EndPoint.WALLET_IMPORT, body);
 };
+
+export const getFirstReword = async () => {
+  return await get(EndPoint.FIRST_REWORD);
+};
+
+export const getBalance = async () => {
+  return await get(EndPoint.GET_BALANCE);
+};

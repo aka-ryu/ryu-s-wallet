@@ -3,13 +3,17 @@ import { InjectSignerProvider, EthersSigner } from 'nestjs-ethers';
 import { Wallet } from 'ethers';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ResponseDTO } from 'src/dto/response.dto';
 import { UserWallet } from 'src/entities/wallet.entity';
 import { Transactional } from 'src/utils/transactional';
+import { ethers } from 'ethers';
+import ERC20_ABI from './../../interface/abi.json';
 
 @Injectable()
 export class BlockchainService {
+  private provider: ethers.providers.JsonRpcProvider;
+  private contract: ethers.Contract;
   constructor(
     @InjectSignerProvider()
     private readonly ethersSigner: EthersSigner,
@@ -18,33 +22,15 @@ export class BlockchainService {
     @InjectRepository(UserWallet)
     private walletRepo: Repository<UserWallet>,
     private transactional: Transactional,
-  ) {}
-  async test() {
-    const wallet = this.ethersSigner.createRandomWallet();
-    const a = {
-      address: wallet.address,
-      private: wallet.privateKey,
-      nm: wallet.mnemonic,
-    };
-
-    const pwallet = new Wallet(a.private);
-
-    const b = {
-      address: pwallet.address,
-      private: pwallet.privateKey,
-      nm: pwallet.mnemonic,
-    };
-
-    const nwallet = Wallet.fromMnemonic(a.nm.phrase);
-
-    const c = {
-      address: nwallet.address,
-      private: nwallet.privateKey,
-      nm: nwallet.mnemonic,
-    };
-
-    const r = [a, b, c];
-    return r;
+  ) {
+    this.provider = new ethers.providers.JsonRpcProvider(
+      'https://sepolia.drpc.org',
+    );
+    this.contract = new ethers.Contract(
+      process.env.CONTRACT_ADDRESS,
+      ERC20_ABI,
+      this.provider,
+    );
   }
 
   async walletCreate(email: string) {
@@ -83,6 +69,7 @@ export class BlockchainService {
         responseDTO.result = 'success';
         responseDTO.data = {
           mnemonic: walletGenerate.mnemonic,
+          address: walletGenerate.address,
         };
       });
     } catch (error) {
@@ -171,6 +158,9 @@ export class BlockchainService {
 
         responseDTO.message = '지갑을 가져오는데 성공하였습니다.';
         responseDTO.result = 'success';
+        responseDTO.data = {
+          walletAddress: wallet.address,
+        };
       });
     } catch (error) {
       responseDTO.message = '오류가 발생하였습니다.';
@@ -179,4 +169,45 @@ export class BlockchainService {
       return responseDTO;
     }
   }
+
+  async getFirstReword(email: string) {
+    //로직작성
+    const responseDTO = new ResponseDTO();
+
+    responseDTO.message = '첫 보상이 지급되었습니다.';
+    responseDTO.result = 'success';
+    return responseDTO;
+  }
+
+  async refreshBalance(email: string) {
+    const responseDTO = new ResponseDTO();
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+        is_wallet: 1,
+      },
+      relations: ['wallet'],
+    });
+
+    try {
+      const balance = await this.contract.balanceOf(user.wallet.address);
+      const formattedBalance = ethers.utils.formatUnits(balance, 18);
+
+      user.wallet.balance = formattedBalance;
+      await this.walletRepo.save(user.wallet);
+
+      responseDTO.data = {
+        balance: formattedBalance,
+      };
+      responseDTO.message = '잔액이 갱신되었습니다.';
+      responseDTO.result = 'success';
+    } catch (error) {
+      responseDTO.message = '오류가 발생하였습니다.';
+      responseDTO.result = 'false';
+    }
+
+    return responseDTO;
+  }
+
+  async attendanceCheck(email: string) {}
 }

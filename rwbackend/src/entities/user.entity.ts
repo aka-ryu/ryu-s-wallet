@@ -28,6 +28,12 @@ export class User {
 
   @Column({
     type: 'smallint',
+    comment: ' 0 (첫보상 안받음), 1 (첫보상 받음)',
+  })
+  is_first_reword: number;
+
+  @Column({
+    type: 'smallint',
     default: 0,
     comment: ' 0 (정상), 1 (탈퇴)',
   })
