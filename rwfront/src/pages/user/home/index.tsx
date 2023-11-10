@@ -36,7 +36,6 @@ const Home = () => {
     if (!userState.is_first_reword) {
       handleGetFirstReword();
     }
-    console.log(userState);
   }, []);
 
   const handleWalletDisconnect = async () => {
@@ -68,6 +67,13 @@ const Home = () => {
       dispatch(setFirstReword({is_first_reword: true}));
       Alert.alert(response.message);
     }
+  };
+
+  const handleAttendance = async () => {
+    setLoadingVisible(true);
+    const response = await Api.attendanceCheck();
+    Alert.alert(response.message);
+    setLoadingVisible(false);
   };
 
   return (
@@ -108,8 +114,13 @@ const Home = () => {
         </View>
 
         <View style={style.buttonLayer}>
-          <RyusButton marginTop={30} text={'출석체크'}></RyusButton>
-          <RyusButton marginTop={30} text={'마이페이지'}></RyusButton>
+          <RyusButton
+            marginTop={30}
+            text={'출석체크'}
+            onPress={() => {
+              handleAttendance();
+            }}></RyusButton>
+          <RyusButton marginTop={30} text={'트랜잭션 목록'}></RyusButton>
           <RyusButton
             marginTop={30}
             text={'지갑 연결 해제'}

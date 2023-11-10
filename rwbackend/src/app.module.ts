@@ -10,9 +10,14 @@ import { AuthModule } from './module/auth/auth.module';
 import { BlockchainModule } from './module/blockchain/blockchain.module';
 import { JwtAuthModule } from './module/jwt/jwtaurh.module';
 import { EthersModule, SEPOLIA_NETWORK } from 'nestjs-ethers';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './scheduler/task.service';
+import { Transaction } from './entities/transaction.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
       isGlobal: true,
@@ -54,8 +59,10 @@ import { EthersModule, SEPOLIA_NETWORK } from 'nestjs-ethers';
     AuthModule,
     BlockchainModule,
     JwtAuthModule,
+    TypeOrmModule.forFeature([Transaction]),
+    HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TasksService],
 })
 export class AppModule {}

@@ -19,12 +19,17 @@ const auth_module_1 = require("./module/auth/auth.module");
 const blockchain_module_1 = require("./module/blockchain/blockchain.module");
 const jwtaurh_module_1 = require("./module/jwt/jwtaurh.module");
 const nestjs_ethers_1 = require("nestjs-ethers");
+const schedule_1 = require("@nestjs/schedule");
+const task_service_1 = require("./scheduler/task.service");
+const transaction_entity_1 = require("./entities/transaction.entity");
+const axios_1 = require("@nestjs/axios");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            schedule_1.ScheduleModule.forRoot(),
             config_1.ConfigModule.forRoot({
                 envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
                 isGlobal: true,
@@ -66,9 +71,11 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             blockchain_module_1.BlockchainModule,
             jwtaurh_module_1.JwtAuthModule,
+            typeorm_1.TypeOrmModule.forFeature([transaction_entity_1.Transaction]),
+            axios_1.HttpModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, task_service_1.TasksService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

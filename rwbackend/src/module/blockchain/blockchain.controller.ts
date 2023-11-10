@@ -24,10 +24,10 @@ export class BlockchainController {
     return this.blockchainService.walletImport(email, value);
   }
 
-  @Get('first_reword')
-  async getFirstReword(@Req() req) {
-    return this.blockchainService.getFirstReword(req.user.email);
-  }
+  // @Get('first_reword')
+  // async getFirstReword(@Req() req) {
+  //   return this.blockchainService.getFirstReword(req.user.email);
+  // }
 
   @Get('get/balance')
   async getBalance(@Req() req) {

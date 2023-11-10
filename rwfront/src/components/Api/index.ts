@@ -2,6 +2,7 @@ import {signIn} from './auth';
 import {checkEmailCode, sendEmailVerfyCode} from './email';
 import {signUp} from './user';
 import {
+  attendanceCheck,
   getBalance,
   getFirstReword,
   walletCreate,
@@ -19,4 +20,5 @@ export default {
   walletImport,
   getFirstReword,
   getBalance,
+  attendanceCheck,
 };

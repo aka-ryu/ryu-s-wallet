@@ -8,6 +8,7 @@ enum EndPoint {
   WALLET_IMPORT = '/blockchain/wallet/import',
   FIRST_REWORD = '/blockchain/first_reword',
   GET_BALANCE = '/blockchain/get/balance',
+  ATTENDANCE_CHECK = '/blockchain/attendance/check',
 }
 
 export default EndPoint;

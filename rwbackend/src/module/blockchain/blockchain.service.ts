@@ -3,12 +3,16 @@ import { InjectSignerProvider, EthersSigner } from 'nestjs-ethers';
 import { Wallet } from 'ethers';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { ResponseDTO } from 'src/dto/response.dto';
 import { UserWallet } from 'src/entities/wallet.entity';
 import { Transactional } from 'src/utils/transactional';
 import { ethers } from 'ethers';
 import ERC20_ABI from './../../interface/abi.json';
+import { Attendance } from 'src/entities/attendance.entity';
+import { startOfDay, endOfDay } from 'date-fns';
+import { Alchemy, Network, Utils, Wallet as AWallet } from 'alchemy-sdk';
+import { Transaction } from 'src/entities/transaction.entity';
 
 @Injectable()
 export class BlockchainService {
@@ -21,6 +25,10 @@ export class BlockchainService {
     private userRepo: Repository<User>,
     @InjectRepository(UserWallet)
     private walletRepo: Repository<UserWallet>,
+    @InjectRepository(Attendance)
+    private attendanceRepo: Repository<Attendance>,
+    @InjectRepository(Transaction)
+    private trasactionRepo: Repository<Transaction>,
     private transactional: Transactional,
   ) {
     this.provider = new ethers.providers.JsonRpcProvider(
@@ -170,14 +178,14 @@ export class BlockchainService {
     }
   }
 
-  async getFirstReword(email: string) {
-    //로직작성
-    const responseDTO = new ResponseDTO();
+  // async getFirstReword(email: string) {
+  //   //로직작성
+  //   const responseDTO = new ResponseDTO();
 
-    responseDTO.message = '첫 보상이 지급되었습니다.';
-    responseDTO.result = 'success';
-    return responseDTO;
-  }
+  //   responseDTO.message = '첫 보상이 지급되었습니다.';
+  //   responseDTO.result = 'success';
+  //   return responseDTO;
+  // }
 
   async refreshBalance(email: string) {
     const responseDTO = new ResponseDTO();
@@ -209,5 +217,100 @@ export class BlockchainService {
     return responseDTO;
   }
 
-  async attendanceCheck(email: string) {}
+  async attendanceCheck(email: string) {
+    const responseDTO = new ResponseDTO();
+
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+        is_wallet: 1,
+      },
+      relations: ['wallet'],
+    });
+    const today = new Date();
+    const attendance = await this.attendanceRepo.findOne({
+      where: {
+        user_id: user.id,
+        date: Between(startOfDay(today), endOfDay(today)),
+      },
+    });
+
+    if (attendance) {
+      responseDTO.message = '이미 출석체크를 하였습니다.';
+      responseDTO.result = 'false';
+      return responseDTO;
+    }
+
+    try {
+      const tx = await this.sendToken(user.wallet.address);
+
+      await this.transactional.run(async (manager) => {
+        const transaction = new Transaction();
+        transaction.user_id = user.id;
+        transaction.tx_id = tx.hash;
+
+        const newAttedence = new Attendance();
+
+        newAttedence.user_id = user.id;
+        newAttedence.date = today;
+
+        await manager.save(newAttedence);
+        await manager.save(transaction);
+      });
+
+      responseDTO.message = '보상 트랜잭션이 전송되었습니다.';
+      responseDTO.result = 'success';
+    } catch (error) {
+      responseDTO.message = '오류가 발생하였습니다.';
+      responseDTO.result = 'false';
+    }
+
+    return responseDTO;
+  }
+
+  async sendToken(to: string) {
+    const settings = {
+      apiKey: process.env.ALCHEMY_KEY, // Replace with your API key.
+      network: Network.ETH_SEPOLIA, // Replace with your network.
+    };
+
+    const alchemy = new Alchemy(settings);
+
+    const sender = new AWallet(process.env.ADMIN_PRIVATEKEY, alchemy);
+
+    const toAddress = to;
+
+    const usdcContractAddress = process.env.CONTRACT_ADDRESS;
+
+    const feeData = await alchemy.core.getFeeData();
+
+    const abi = ['function transfer(address to, uint256 value)'];
+
+    const amountToSend = 10;
+
+    const decimals = 18;
+
+    const amountToSendInDecimals = amountToSend * 10 ** decimals;
+
+    const iface = new Utils.Interface(abi);
+    const data = iface.encodeFunctionData('transfer', [
+      toAddress,
+      Utils.parseUnits(amountToSendInDecimals.toString(), 'wei'),
+    ]);
+
+    const transaction = {
+      to: usdcContractAddress,
+      nonce: await alchemy.core.getTransactionCount(sender.getAddress()),
+      maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
+      maxFeePerGas: feeData.maxFeePerGas,
+      type: 2,
+      chainId: 11155111,
+      data: data,
+      gasLimit: Utils.parseUnits('250000', 'wei'),
+    };
+
+    const sentTx = await sender.sendTransaction(transaction);
+
+    return sentTx;
+  }
 }

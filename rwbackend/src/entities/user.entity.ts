@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserWallet } from './wallet.entity';
+import { Attendance } from './attendance.entity';
 
 @Entity('User')
 export class User {

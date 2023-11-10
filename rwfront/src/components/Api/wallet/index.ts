@@ -20,3 +20,7 @@ export const getFirstReword = async () => {
 export const getBalance = async () => {
   return await get(EndPoint.GET_BALANCE);
 };
+
+export const attendanceCheck = async () => {
+  return await get(EndPoint.ATTENDANCE_CHECK);
+};
