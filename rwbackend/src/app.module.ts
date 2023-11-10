@@ -14,6 +14,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TasksService } from './scheduler/task.service';
 import { Transaction } from './entities/transaction.entity';
 import { HttpModule } from '@nestjs/axios';
+import { UserWallet } from './entities/wallet.entity';
+import { Transactional } from './utils/transactional';
 
 @Module({
   imports: [
@@ -59,10 +61,10 @@ import { HttpModule } from '@nestjs/axios';
     AuthModule,
     BlockchainModule,
     JwtAuthModule,
-    TypeOrmModule.forFeature([Transaction]),
+    TypeOrmModule.forFeature([Transaction, UserWallet]),
     HttpModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TasksService],
+  providers: [AppService, TasksService, Transactional],
 })
 export class AppModule {}

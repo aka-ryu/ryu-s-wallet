@@ -248,6 +248,7 @@ export class BlockchainService {
         const transaction = new Transaction();
         transaction.user_id = user.id;
         transaction.tx_id = tx.hash;
+        transaction.send_type = '출석 보상';
 
         const newAttedence = new Attendance();
 
@@ -309,8 +310,8 @@ export class BlockchainService {
       gasLimit: Utils.parseUnits('250000', 'wei'),
     };
 
-    const sentTx = await sender.sendTransaction(transaction);
+    const sendTx = await sender.sendTransaction(transaction);
 
-    return sentTx;
+    return sendTx;
   }
 }

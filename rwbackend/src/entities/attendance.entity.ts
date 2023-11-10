@@ -16,11 +16,4 @@ export class Attendance {
 
   @Column('date')
   date: Date;
-
-  @Column({
-    type: 'smallint',
-    default: 0,
-    comment: ' 0 (미지급), 1 (지급완료)',
-  })
-  is_delecomcompensationpensationted: number;
 }

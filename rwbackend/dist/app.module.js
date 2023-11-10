@@ -23,6 +23,8 @@ const schedule_1 = require("@nestjs/schedule");
 const task_service_1 = require("./scheduler/task.service");
 const transaction_entity_1 = require("./entities/transaction.entity");
 const axios_1 = require("@nestjs/axios");
+const wallet_entity_1 = require("./entities/wallet.entity");
+const transactional_1 = require("./utils/transactional");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -71,11 +73,11 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             blockchain_module_1.BlockchainModule,
             jwtaurh_module_1.JwtAuthModule,
-            typeorm_1.TypeOrmModule.forFeature([transaction_entity_1.Transaction]),
+            typeorm_1.TypeOrmModule.forFeature([transaction_entity_1.Transaction, wallet_entity_1.UserWallet]),
             axios_1.HttpModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, task_service_1.TasksService],
+        providers: [app_service_1.AppService, task_service_1.TasksService, transactional_1.Transactional],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
