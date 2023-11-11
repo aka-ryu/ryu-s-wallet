@@ -42,6 +42,8 @@ export class TasksService {
     }
 
     await this.transactionRepo.save(txList);
+
+    await this.retryFailTx();
   }
 
   private async getTransactionReceiptStatus(txhash: string) {
@@ -59,7 +61,6 @@ export class TasksService {
     return response.data.result.status;
   }
 
-  @Cron(CronExpression.EVERY_10_MINUTES)
   async retryFailTx() {
     const txList = await this.transactionRepo.find({
       where: {
