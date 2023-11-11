@@ -19,7 +19,7 @@
 
 [ - 기능 명세](./document//Function.md)
 
-[ - UI](./document/UI/Ryu's%20Wallet%20UI.pdf)
+[ - UI](./document/UI.pdf)
 
 [ - ERD](./document//erd.png)
 
