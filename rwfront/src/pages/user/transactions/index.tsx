@@ -44,8 +44,15 @@ const Transactions = () => {
         {txList.map(tx => {
           return (
             <View style={style.txCard}>
-              <Text style={tx.result === 1 ? style.success : style.fail}>
-                {tx.result === 1 ? '성공' : '실패'}
+              <Text
+                style={
+                  tx.result === 1
+                    ? style.success
+                    : tx.result === 2
+                    ? style.fail
+                    : style.wait
+                }>
+                {tx.result === 1 ? '성공' : tx.result === 2 ? '실패' : '처리중'}
               </Text>
               <View style={style.txMiddleLayer}>
                 <Text style={style.sendType}>{tx.send_type}</Text>

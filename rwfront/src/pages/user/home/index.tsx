@@ -38,10 +38,10 @@ const Home = () => {
     }
   }, []);
 
-  const handleWalletDisconnect = async () => {
-    const response = await Api.walletDisconnect();
-    navigation.navigate(Routes.GET_WALLET);
-  };
+  // const handleWalletDisconnect = async () => {
+  //   const response = await Api.walletDisconnect();
+  //   navigation.navigate(Routes.GET_WALLET);
+  // };
 
   const handleGetBalance = async () => {
     setLoadingVisible(true);
@@ -133,19 +133,19 @@ const Home = () => {
             onPress={() =>
               navigation.navigate(Routes.TRANSACTIONS)
             }></RyusButton>
-          <RyusButton
+          {/* <RyusButton
             marginTop={30}
             text={'지갑 연결 해제'}
             onPress={() => {
               handleWalletDisconnect();
-            }}></RyusButton>
+            }}></RyusButton> */}
           <RyusButton
             marginTop={30}
             text={'커피 쿠폰 (30 RYU)'}
             onPress={() => {
               handleCoffeeCode();
             }}></RyusButton>
-          <Text>커피 쿠폰 선착순 3장 입니다.</Text>
+          <Text>* 빽다방 아메리카노 쿠폰 선착순 3장 입니다.</Text>
         </View>
       </ScrollView>
       <LoadingModal visible={loadingVisible}></LoadingModal>

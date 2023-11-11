@@ -164,6 +164,23 @@ export class EmailService {
 
   async coffeeCode(email: string) {
     const responseDTO = new ResponseDTO();
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    const already = await this.coffeeRepo.findOne({
+      where: {
+        user_id: user.id,
+      },
+    });
+
+    if (already) {
+      responseDTO.message = '이미 쿠폰을 받으셨습니다.';
+      responseDTO.result = 'false';
+      return responseDTO;
+    }
 
     const coffeeCode = await this.coffeeRepo.findOne({
       where: {
@@ -174,6 +191,30 @@ export class EmailService {
     if (!coffeeCode) {
       responseDTO.message = '선착순 수량이 소진되었습니다.';
       responseDTO.result = 'false';
+      return responseDTO;
+    }
+
+    try {
+      coffeeCode.is_used = 1;
+      coffeeCode.user_id = user.id;
+
+      this.coffeeRepo.save(coffeeCode);
+
+      await this.mailsender.sendMail({
+        to: email,
+        from: 'uhuhas2002@gmail.com',
+        subject: `Ryus's Wallet 커피 쿠폰`,
+        text: `빽다방 아메리카도 코드 ${coffeeCode.code} 입니다.`,
+      });
+
+      responseDTO.message = '메일에서 쿠폰을 확인하세요.';
+      responseDTO.result = 'success';
+
+      return responseDTO;
+    } catch (error) {
+      responseDTO.result = 'false';
+      responseDTO.message = '오류가 발생하였습니다, 다시 시도해 주세요.';
+
       return responseDTO;
     }
   }

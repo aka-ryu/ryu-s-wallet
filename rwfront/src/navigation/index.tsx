@@ -19,7 +19,13 @@ const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={userState.is_login ? Routes.HOME : Routes.SIGN_IN}
+        initialRouteName={
+          userState.is_login
+            ? userState.is_wallet
+              ? Routes.HOME
+              : Routes.GET_WALLET
+            : Routes.SIGN_IN
+        }
         screenOptions={{headerShown: false}}>
         {/* Non-authenticated routes */}
         {!userState.is_login && (

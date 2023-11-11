@@ -23,6 +23,10 @@ export default StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
+  wait: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
   txMiddleLayer: {
     display: 'flex',
     flexDirection: 'row',
