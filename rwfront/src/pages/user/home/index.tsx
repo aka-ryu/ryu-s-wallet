@@ -77,7 +77,12 @@ const Home = () => {
   };
 
   const handleCoffeeCode = async () => {
+    if (userState.balance < 30) {
+      Alert.alert('RYU TOKEN 이 부족합니다.');
+      return;
+    }
     setLoadingVisible(true);
+
     const response = await Api.coffeeCode();
     Alert.alert(response.message);
     setLoadingVisible(false);
