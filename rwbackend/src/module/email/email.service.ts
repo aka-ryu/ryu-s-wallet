@@ -124,7 +124,6 @@ export class EmailService {
     // 입력시간 10분제한 확인
     const isTimeout = await this.checkTimeout(emailVerify);
     if (isTimeout) {
-      console.log('시간초과');
       responseDTO.message =
         '인증시간 10분이 초과하였습니다, 다시 시도해 주세요.';
       responseDTO.result = 'false';
@@ -140,7 +139,10 @@ export class EmailService {
 
       return responseDTO;
     } else if (type === 'password') {
-      return this.userService.changePassword(codeDTO);
+      responseDTO.message = '인증에 성공하였습니다.';
+      responseDTO.result = 'success';
+
+      return responseDTO;
     }
   }
 

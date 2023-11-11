@@ -7,7 +7,7 @@ import {useState, useEffect} from 'react';
 import Api from '../../../components/Api';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
-import {emailRegex, codeRegex} from '../../../interface/regex';
+import {emailRegex, codeRegex, passwordRegex} from '../../../interface/regex';
 import RyusButton from '../../../components/RyusButton';
 
 const ForgotPassword = () => {
@@ -15,9 +15,12 @@ const ForgotPassword = () => {
 
   const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
   const [verifyButtonDisabled, setVerifyButtonDisabled] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [codeSendLoading, setCodeSendLoading] = useState(false);
   const [codeCheckLoading, setCodeCheckLoading] = useState(false);
@@ -28,6 +31,10 @@ const ForgotPassword = () => {
 
   const [nextStep, setNextStep] = useState(true);
 
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   useEffect(() => {
     setSendButtonDisabled(!emailRegex.test(String(email).toLowerCase()));
   }, [email]);
@@ -35,6 +42,44 @@ const ForgotPassword = () => {
   useEffect(() => {
     setVerifyButtonDisabled(!codeRegex.test(code));
   }, [code]);
+
+  useEffect(() => {
+    handleCheckPassword();
+  }, [password, confirmPassword]);
+
+  const handleCheckPassword = () => {
+    let isPasswordError = false;
+    let isConfirmPasswordError = false;
+
+    if (password === '') {
+      setPasswordError('');
+    } else if (!passwordRegex.test(password)) {
+      setPasswordError('영어 + 숫자 조합 8 ~ 20글자 입니다.');
+      isPasswordError = true;
+    } else {
+      setPasswordError('');
+    }
+
+    if (confirmPassword === '') {
+      setConfirmPasswordError('');
+    } else if (password !== confirmPassword) {
+      setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
+      isConfirmPasswordError = true;
+    } else {
+      setConfirmPasswordError('');
+    }
+
+    if (
+      !isPasswordError &&
+      !isConfirmPasswordError &&
+      password &&
+      confirmPassword
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  };
 
   const handleEditEmail = () => {
     setEmail('');
@@ -77,7 +122,6 @@ const ForgotPassword = () => {
         setCodeCheckLoading(false);
         setNextStep(false);
         Alert.alert(response.message);
-        navigation.navigate(Routes.SIGN_IN);
       } else {
         setVerifyButtonDisabled(false);
         setCodeCheckLoading(false);
@@ -99,6 +143,18 @@ const ForgotPassword = () => {
         }
       }
     } catch (error) {}
+  };
+
+  const handlePasswordChange = async () => {
+    setButtonLoading(true);
+    setButtonDisabled(true);
+    const response = await Api.changePassword({
+      email: email,
+      password: password,
+    });
+
+    Alert.alert(response.message);
+    navigation.navigate(Routes.SIGN_IN);
   };
 
   return (
@@ -142,6 +198,32 @@ const ForgotPassword = () => {
           )}
 
           <View style={{height: 30}}></View>
+
+          {!nextStep && (
+            <>
+              <RyusInput
+                label={'비밀번호'}
+                value={password}
+                placeholder="영어 + 숫자 조합 8 ~ 20 글자"
+                onChangeText={text => setPassword(text)}
+                maxLength={20}
+                password={true}
+                errText={passwordError}></RyusInput>
+              <RyusInput
+                label={'비밀번호 확인'}
+                value={confirmPassword}
+                placeholder="비밀번호를 다시 입력하세요"
+                onChangeText={text => setConfirmPassword(text)}
+                maxLength={20}
+                password={true}
+                errText={confirmPasswordError}></RyusInput>
+              <RyusButton
+                text="비밀번호 변경"
+                disabled={buttonDisabled}
+                onPress={handlePasswordChange}
+                loading={buttonLoading}></RyusButton>
+            </>
+          )}
         </View>
         <View></View>
       </ScrollView>

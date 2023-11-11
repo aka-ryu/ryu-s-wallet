@@ -11,6 +11,7 @@ enum EndPoint {
   ATTENDANCE_CHECK = '/blockchain/attendance/check',
   GET_TRANSACTIONS = '/blockchain/get/transactions',
   COFFEE_CODE = '/email/coffee/code',
+  CHANGE_PASSWORD = '/user/change/password',
 }
 
 export default EndPoint;

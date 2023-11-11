@@ -55,7 +55,6 @@ const SignIn = () => {
 
       const response = await Api.signIn({email: email, password: password});
       if (response.result === 'success') {
-        console.log(response);
         dispatch(
           login({
             email: email,

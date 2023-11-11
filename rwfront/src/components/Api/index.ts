@@ -1,6 +1,6 @@
 import {signIn} from './auth';
 import {checkEmailCode, coffeeCode, sendEmailVerfyCode} from './email';
-import {signUp} from './user';
+import {changePassword, signUp} from './user';
 import {
   attendanceCheck,
   getBalance,
@@ -24,4 +24,5 @@ export default {
   attendanceCheck,
   getTransactions,
   coffeeCode,
+  changePassword,
 };
