@@ -17,3 +17,5 @@
 [ - UI](./document/UI/Ryu's%20Wallet%20UI.pdf)
 
 [ - ERD](./document//erd.png)
+
+[ - 시스템 아키텍처](./document/시스템%20아키텍처.png)
