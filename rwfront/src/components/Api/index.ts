@@ -5,6 +5,7 @@ import {
   attendanceCheck,
   getBalance,
   getFirstReword,
+  getTransactions,
   walletCreate,
   walletDisconnect,
   walletImport,
@@ -21,4 +22,5 @@ export default {
   getFirstReword,
   getBalance,
   attendanceCheck,
+  getTransactions,
 };

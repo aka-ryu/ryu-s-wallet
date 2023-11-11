@@ -120,14 +120,19 @@ const Home = () => {
             onPress={() => {
               handleAttendance();
             }}></RyusButton>
-          <RyusButton marginTop={30} text={'트랜잭션 목록'}></RyusButton>
+          <RyusButton
+            marginTop={30}
+            text={'트랜잭션 목록'}
+            onPress={() =>
+              navigation.navigate(Routes.TRANSACTIONS)
+            }></RyusButton>
           <RyusButton
             marginTop={30}
             text={'지갑 연결 해제'}
             onPress={() => {
               handleWalletDisconnect();
             }}></RyusButton>
-          <RyusButton marginTop={30} text={'커피 쿠폰 (150RYU)'}></RyusButton>
+          <RyusButton marginTop={30} text={'커피 쿠폰 (50 RYU)'}></RyusButton>
         </View>
       </ScrollView>
       <LoadingModal visible={loadingVisible}></LoadingModal>

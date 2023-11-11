@@ -6,6 +6,7 @@ enum Routes {
   GET_WALLET = 'GetWallet',
   MNEMONIC = 'Mnemonic',
   WALLET_IMPORT = 'WalletImport',
+  TRANSACTIONS = 'Transactions',
 }
 
 export const NATIVE_ROUTES = Object.values(Routes);

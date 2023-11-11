@@ -38,4 +38,9 @@ export class BlockchainController {
   async attendanceCheck(@Req() req) {
     return this.blockchainService.attendanceCheck(req.user.email);
   }
+
+  @Get('get/transactions')
+  async getTransactions(@Req() req) {
+    return this.blockchainService.getTransactions(req.user.email);
+  }
 }

@@ -11,6 +11,7 @@ import GetWallet from '../pages/user/getwallet';
 import {useEffect} from 'react';
 import Mnemonic from '../pages/user/mnemonic';
 import WalletImport from '../pages/user/walletImport';
+import Transactions from '../pages/user/transactions';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Navigator = () => {
@@ -42,6 +43,7 @@ const Navigator = () => {
               name={Routes.WALLET_IMPORT}
               component={WalletImport}
             />
+            <Stack.Screen name={Routes.TRANSACTIONS} component={Transactions} />
           </>
         )}
       </Stack.Navigator>

@@ -24,3 +24,7 @@ export const getBalance = async () => {
 export const attendanceCheck = async () => {
   return await get(EndPoint.ATTENDANCE_CHECK);
 };
+
+export const getTransactions = async () => {
+  return await get(EndPoint.GET_TRANSACTIONS);
+};

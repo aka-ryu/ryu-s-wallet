@@ -33,7 +33,6 @@ export class TasksService {
     }
 
     for (let i = 0; i < txList.length; i++) {
-      console.log(i);
       const result = await this.getTransactionReceiptStatus(txList[i].tx_id);
       if (result === '1') {
         txList[i].result = 1;
@@ -62,7 +61,6 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_10_MINUTES)
   async retryFailTx() {
-    console.log('시작');
     const txList = await this.transactionRepo.find({
       where: {
         result: 2,

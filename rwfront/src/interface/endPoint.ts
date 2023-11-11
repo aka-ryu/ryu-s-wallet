@@ -9,6 +9,7 @@ enum EndPoint {
   FIRST_REWORD = '/blockchain/first_reword',
   GET_BALANCE = '/blockchain/get/balance',
   ATTENDANCE_CHECK = '/blockchain/attendance/check',
+  GET_TRANSACTIONS = '/blockchain/get/transactions',
 }
 
 export default EndPoint;

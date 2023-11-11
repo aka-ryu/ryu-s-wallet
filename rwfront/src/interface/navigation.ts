@@ -8,4 +8,5 @@ export type RootStackParamList = {
   [Routes.GET_WALLET]: undefined;
   [Routes.MNEMONIC]: {mnemonic: string};
   [Routes.WALLET_IMPORT]: undefined;
+  [Routes.TRANSACTIONS]: undefined;
 };

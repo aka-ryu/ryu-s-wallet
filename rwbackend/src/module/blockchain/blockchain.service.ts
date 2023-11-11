@@ -314,4 +314,27 @@ export class BlockchainService {
 
     return sendTx;
   }
+
+  async getTransactions(email: string) {
+    const user = await this.userRepo.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    const txList = await this.trasactionRepo.find({
+      where: {
+        user_id: user.id,
+      },
+      order: { created_at: 'DESC' },
+    });
+
+    const responseDTO = new ResponseDTO();
+    responseDTO.result = 'success';
+    responseDTO.message = '트랜잭션 리스트입니다.';
+    responseDTO.data = {
+      txList: txList,
+    };
+    return responseDTO;
+  }
 }
