@@ -1,6 +1,6 @@
 import {Alert, SafeAreaView, ScrollView, View} from 'react-native';
 import Header from '../../../components/Header';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import style from './style';
 import RyusButton from '../../../components/RyusButton';
 import LoadingModal from '../../../components/Modal/LoadingModal';
@@ -10,11 +10,18 @@ import {setWallet} from '../../../redux/slices/userSlice';
 import {useNavigation, NavigationProp} from '@react-navigation/native';
 import {RootStackParamList} from '../../../interface/navigation';
 import Routes from '../../../navigation/Routes';
+import {useTypedSelector} from '../../../redux/store';
 
 const GetWallet = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const [loadingVisible, setLoadingVisible] = useState(false);
+  const userState = useTypedSelector(state => state.user);
+  useEffect(() => {
+    if (userState.is_wallet) {
+      navigation.navigate(Routes.HOME);
+    }
+  }, []);
 
   const handleGetNewWallet = async () => {
     setLoadingVisible(true);

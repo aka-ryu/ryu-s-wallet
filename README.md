@@ -12,6 +12,10 @@
 
 [요구사항 명세](./document//Requirements.md)
 
+[기능 명세](./document//Function.md)
+
+[UI](./document/UI/Ryu's%20Wallet%20UI.pdf)
+
 #### 유저
 
     - 회원가입

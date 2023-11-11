@@ -42,9 +42,9 @@ const Navigator = () => {
         {/* Authenticated routes */}
         {userState.is_login && (
           <>
+            <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
             <Stack.Screen name={Routes.HOME} component={Home} />
             <Stack.Screen name={Routes.MNEMONIC} component={Mnemonic} />
-            <Stack.Screen name={Routes.GET_WALLET} component={GetWallet} />
             <Stack.Screen
               name={Routes.WALLET_IMPORT}
               component={WalletImport}

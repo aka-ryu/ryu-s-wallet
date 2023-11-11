@@ -33,8 +33,8 @@ const Home = () => {
   const [loadingVisible, setLoadingVisible] = useState(false);
 
   useEffect(() => {
-    if (!userState.is_first_reword) {
-      handleGetFirstReword();
+    if (!userState.is_wallet) {
+      navigation.navigate(Routes.GET_WALLET);
     }
   }, []);
 
@@ -54,19 +54,11 @@ const Home = () => {
   };
 
   const truncateText = (text: string) => {
-    return text.substring(0, 20) + '...';
+    if (userState.is_wallet) return text.substring(0, 20) + '...';
   };
 
   const formatNumber = (num: string) => {
     return Number(num).toFixed(2);
-  };
-
-  const handleGetFirstReword = async () => {
-    const response = await Api.getFirstReword();
-    if (response.result === 'success') {
-      dispatch(setFirstReword({is_first_reword: true}));
-      Alert.alert(response.message);
-    }
   };
 
   const handleAttendance = async () => {
