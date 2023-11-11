@@ -9,6 +9,7 @@ import { EmailVerify } from 'src/entities/email_auth.entity';
 import { User } from 'src/entities/user.entity';
 import { Between, Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
+import { Coffee } from 'src/entities/coffee.entity';
 
 @Injectable()
 export class EmailService {
@@ -19,6 +20,8 @@ export class EmailService {
     private emailVerifyRepo: Repository<EmailVerify>,
     @InjectRepository(User)
     private userRepo: Repository<User>,
+    @InjectRepository(Coffee)
+    private coffeeRepo: Repository<Coffee>,
   ) {}
 
   async sendEmailVerifyCode(emailDTO: EmailDTO) {
@@ -156,6 +159,22 @@ export class EmailService {
       return true;
     } else {
       return false;
+    }
+  }
+
+  async coffeeCode(email: string) {
+    const responseDTO = new ResponseDTO();
+
+    const coffeeCode = await this.coffeeRepo.findOne({
+      where: {
+        is_used: 0,
+      },
+    });
+
+    if (!coffeeCode) {
+      responseDTO.message = '선착순 수량이 소진되었습니다.';
+      responseDTO.result = 'false';
+      return responseDTO;
     }
   }
 }

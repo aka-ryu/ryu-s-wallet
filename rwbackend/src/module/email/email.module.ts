@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailVerify } from 'src/entities/email_auth.entity';
 import { User } from 'src/entities/user.entity';
 import { UserService } from '../user/user.service';
+import { Coffee } from 'src/entities/coffee.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([EmailVerify, User])],
+  imports: [TypeOrmModule.forFeature([EmailVerify, User, Coffee])],
   controllers: [EmailController],
   providers: [EmailService, UserService],
 })

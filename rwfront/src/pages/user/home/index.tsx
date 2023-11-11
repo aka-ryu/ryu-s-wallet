@@ -76,6 +76,13 @@ const Home = () => {
     setLoadingVisible(false);
   };
 
+  const handleCoffeeCode = async () => {
+    setLoadingVisible(true);
+    const response = await Api.coffeeCode();
+    Alert.alert(response.message);
+    setLoadingVisible(false);
+  };
+
   return (
     <SafeAreaView style={style.container}>
       <Header goBack={false} goLogout={true}></Header>
@@ -132,7 +139,13 @@ const Home = () => {
             onPress={() => {
               handleWalletDisconnect();
             }}></RyusButton>
-          <RyusButton marginTop={30} text={'커피 쿠폰 (50 RYU)'}></RyusButton>
+          <RyusButton
+            marginTop={30}
+            text={'커피 쿠폰 (30 RYU)'}
+            onPress={() => {
+              handleCoffeeCode();
+            }}></RyusButton>
+          <Text>커피 쿠폰 선착순 3장 입니다.</Text>
         </View>
       </ScrollView>
       <LoadingModal visible={loadingVisible}></LoadingModal>

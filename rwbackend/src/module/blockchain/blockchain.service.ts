@@ -18,6 +18,12 @@ import { Transaction } from 'src/entities/transaction.entity';
 export class BlockchainService {
   private provider: ethers.providers.JsonRpcProvider;
   private contract: ethers.Contract;
+  private settings = {
+    apiKey: process.env.ALCHEMY_KEY, // Replace with your API key.
+    network: Network.ETH_SEPOLIA, // Replace with your network.
+  };
+  private alchemy = new Alchemy(this.settings);
+
   constructor(
     @InjectSignerProvider()
     private readonly ethersSigner: EthersSigner,
@@ -198,8 +204,19 @@ export class BlockchainService {
     });
 
     try {
-      const balance = await this.contract.balanceOf(user.wallet.address);
-      const formattedBalance = ethers.utils.formatUnits(balance, 18);
+      const ownerAddress = user.wallet.address;
+
+      const tokenContractAddresses = [process.env.CONTRACT_ADDRESS];
+
+      const data = await this.alchemy.core.getTokenBalances(
+        ownerAddress,
+        tokenContractAddresses,
+      );
+
+      const formattedBalance = ethers.utils.formatUnits(
+        data.tokenBalances[0].tokenBalance,
+        18,
+      );
 
       user.wallet.balance = formattedBalance;
       await this.walletRepo.save(user.wallet);
@@ -210,6 +227,7 @@ export class BlockchainService {
       responseDTO.message = '잔액이 갱신되었습니다.';
       responseDTO.result = 'success';
     } catch (error) {
+      console.log(error);
       responseDTO.message = '오류가 발생하였습니다.';
       responseDTO.result = 'false';
     }
@@ -270,20 +288,13 @@ export class BlockchainService {
   }
 
   async sendToken(to: string) {
-    const settings = {
-      apiKey: process.env.ALCHEMY_KEY, // Replace with your API key.
-      network: Network.ETH_SEPOLIA, // Replace with your network.
-    };
-
-    const alchemy = new Alchemy(settings);
-
-    const sender = new AWallet(process.env.ADMIN_PRIVATEKEY, alchemy);
+    const sender = new AWallet(process.env.ADMIN_PRIVATEKEY, this.alchemy);
 
     const toAddress = to;
 
     const usdcContractAddress = process.env.CONTRACT_ADDRESS;
 
-    const feeData = await alchemy.core.getFeeData();
+    const feeData = await this.alchemy.core.getFeeData();
 
     const abi = ['function transfer(address to, uint256 value)'];
 
@@ -301,7 +312,7 @@ export class BlockchainService {
 
     const transaction = {
       to: usdcContractAddress,
-      nonce: await alchemy.core.getTransactionCount(sender.getAddress()),
+      nonce: await this.alchemy.core.getTransactionCount(sender.getAddress()),
       maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
       maxFeePerGas: feeData.maxFeePerGas,
       type: 2,

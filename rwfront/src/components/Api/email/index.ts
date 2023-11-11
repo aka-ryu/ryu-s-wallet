@@ -1,5 +1,5 @@
 import EndPoint from '../../../interface/endPoint';
-import {post} from '../../../utils/api';
+import {get, post} from '../../../utils/api';
 
 export const sendEmailVerfyCode = async (body: {
   email: string;
@@ -14,4 +14,8 @@ export const checkEmailCode = async (body: {
   type: string;
 }) => {
   return await post(EndPoint.CHECK_EMAIL_CODE, body);
+};
+
+export const coffeeCode = async () => {
+  return await get(EndPoint.COFFEE_CODE);
 };
