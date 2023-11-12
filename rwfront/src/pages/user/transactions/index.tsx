@@ -46,38 +46,43 @@ const Transactions = () => {
             <Text>트랜잭션(출석체크) 내역이 없습니다.</Text>
           </View>
         )}
-        {txList.map(tx => {
-          return (
-            <View style={style.txCard}>
-              <Text
-                style={
-                  tx.result === 1
-                    ? style.success
-                    : tx.result === 2
-                    ? style.fail
-                    : style.wait
-                }>
-                {tx.result === 1 ? '성공' : tx.result === 2 ? '실패' : '처리중'}
-              </Text>
-              <View style={style.txMiddleLayer}>
-                <Text style={style.sendType}>{tx.send_type}</Text>
-                <Text>
-                  <Text style={style.ryu}>10</Text> RYU
-                </Text>
-              </View>
-              <View>
-                <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL(
-                      `https://sepolia.etherscan.io/tx/${tx.tx_id}`,
-                    )
+        {txList.length > 0 &&
+          txList.map(tx => {
+            return (
+              <View style={style.txCard}>
+                <Text
+                  style={
+                    tx.result === 1
+                      ? style.success
+                      : tx.result === 2
+                      ? style.fail
+                      : style.wait
                   }>
-                  <Text>{`해쉬 : ${tx.tx_id}`}</Text>
-                </TouchableOpacity>
+                  {tx.result === 1
+                    ? '성공'
+                    : tx.result === 2
+                    ? '실패'
+                    : '처리중'}
+                </Text>
+                <View style={style.txMiddleLayer}>
+                  <Text style={style.sendType}>{tx.send_type}</Text>
+                  <Text>
+                    <Text style={style.ryu}>10</Text> RYU
+                  </Text>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(
+                        `https://sepolia.etherscan.io/tx/${tx.tx_id}`,
+                      )
+                    }>
+                    <Text>{`해쉬 : ${tx.tx_id.substring(30, 0)}...`}</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          );
-        })}
+            );
+          })}
       </ScrollView>
     </SafeAreaView>
   );
