@@ -41,6 +41,11 @@ const Transactions = () => {
     <SafeAreaView style={style.container}>
       <Header goBack={true} goLogout={false} title="Transaction List"></Header>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {txList.length === 0 && (
+          <View style={style.noTx}>
+            <Text>트랜잭션(출석체크) 내역이 없습니다.</Text>
+          </View>
+        )}
         {txList.map(tx => {
           return (
             <View style={style.txCard}>

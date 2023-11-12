@@ -45,4 +45,10 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlignVertical: 'center',
   },
+  noTx: {
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    marginTop: 100,
+  },
 });
