@@ -47,5 +47,6 @@ build/config\.gypi
 pnpm-lock.yaml
 
 dist/
+ecosystem.*
 
 .env.*
