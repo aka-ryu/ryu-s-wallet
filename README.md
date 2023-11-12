@@ -15,6 +15,8 @@
 플레이스토어 출시 검토승인 대기중입니다.  
 곧 출시됩니다!!
 
+[ APK 파일 먼저 다운받아 체험하기](https://raw.githubusercontent.com/aka-ryu/ryu-s-wallet/main/ryu-wallet.apk.7z)
+
 ## 관련 문서
 
 [ - 요구사항 명세](./document//Requirements.md)
