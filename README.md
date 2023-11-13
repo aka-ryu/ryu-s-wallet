@@ -7,7 +7,7 @@
 
 프론트: react-native  
 백엔드: nestjs  
-블록체인 테스트넷: eth sepolia test
+블록체인 테스트넷: eth sepolia test  
 배포: ec2, rds, playstore
 
 개발 진행일 : 2023/11/3 ~ 2023/11/12
