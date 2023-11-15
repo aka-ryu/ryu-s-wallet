@@ -12,10 +12,7 @@
 
 개발 진행일 : 2023/11/3 ~ 2023/11/12
 
-플레이스토어 출시 검토승인 대기중입니다.  
-곧 출시됩니다!!
-
-[ APK 파일 먼저 다운받아 체험하기](https://raw.githubusercontent.com/aka-ryu/ryu-s-wallet/main/ryu-wallet.apk.7z)
+[플레이스토어에서 다운받기](https://play.google.com/store/apps/details?id=com.rwfront&pcampaignid=web_share)
 
 ## 관련 문서
 
