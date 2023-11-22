@@ -14,6 +14,8 @@
 
 [플레이스토어에서 다운받기](https://play.google.com/store/apps/details?id=com.rwfront&pcampaignid=web_share)
 
+정책문제로 잠시 앱이 게시중단되었습니다.
+
 ## 관련 문서
 
 [ - 요구사항 명세](./document//Requirements.md)
